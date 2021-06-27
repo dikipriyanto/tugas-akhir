@@ -1,0 +1,28 @@
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .join-todas a.join-todas-button {
+        width: 150px;
+    }
+}
+@media only screen and (min-width: 320px) and (max-width: 991px) {
+    .membership {
+        padding: 60px 0 20px;
+    }
+    .join-todas a.join-todas-button {
+        /* width: 100%; */
+        margin-top: 30px;
+        height: 40px;
+        line-height: 40px;
+    }
+    .join-todas h2 {
+        text-align: center;
+    }
+    .join-todas p {
+        text-align: center;
+    }
+    .brand.membership-page {
+        padding-top: 60px;
+    } 
+    .join-todas .todas-button-box {
+        text-align: center;
+    }
+}

@@ -1,0 +1,76 @@
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .support {
+        padding: 60px 0 30px;
+    }
+    .support-contact {
+        padding: 60px 0;
+    } 
+    .support .single-box .part-txt h3 {
+        font-size: 20px;
+        line-height: 30px;
+    }  
+    .support-contact .part-txt h2 {
+        font-size: 22px;
+        line-height: 32px; 
+        margin-top: -5px;
+    }
+    .brand.support-page {
+        padding-top: 60px;
+    } 
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+    .support {
+        padding: 60px 0 30px;
+    }
+    .support-contact {
+        padding: 60px 0;
+    } 
+    .support-contact .part-txt h2 {
+        font-size: 22px;
+        line-height: 32px; 
+        margin-top: -5px;
+    }
+    .brand.support-page {
+        padding-top: 60px;
+    } 
+}
+@media only screen and (min-width: 480px) and (max-width: 575px) {
+    .support {
+        padding: 60px 0 30px;
+    }
+    .support .single-box .part-txt h3 {
+        font-size: 20px;
+        line-height: 30px;
+    }   
+    .support-contact {
+        padding: 60px 0;
+    } 
+    .support-contact .part-txt h2 {
+        font-size: 22px;
+        line-height: 32px; 
+        margin-top: -5px;
+    }
+    .brand.support-page {
+        padding-top: 60px;
+    } 
+}
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+    .support {
+        padding: 60px 0 30px;
+    }
+    .support .single-box .part-txt h3 {
+        font-size: 20px;
+        line-height: 30px;
+    }   
+    .support-contact {
+        padding: 60px 0;
+    } 
+    .support-contact .part-txt h2 {
+        font-size: 22px;
+        line-height: 32px; 
+        margin-top: -5px;
+    }
+    .brand.support-page {
+        padding-top: 60px;
+    } 
+}

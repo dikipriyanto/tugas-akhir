@@ -1,0 +1,250 @@
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .affiliate .part-img {
+        margin-right: 0;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .affiliate {
+        padding: 60px 0;
+    }
+    .affiliate .part-img {
+        display: none;
+    }
+    .affiliate .part-txt .title h2 {
+        font-size: 28px;
+        line-height: 38px;
+    }
+    .become-affiliate .single-box .part-txt h3 br {
+        display: none;
+    }
+    .become-affiliate .single-box .part-txt h3 {
+        font-size: 22px;
+        line-height: 32px;
+    }
+    .become-affiliate {
+        padding: 60px 0 20px;
+    }
+    .how-works .boxes .vector-how-it-work {
+        display: none;
+    }
+    .how-works {
+        padding: 60px 0 30px;
+    }
+    .how-works .boxes .single-box {
+        margin-bottom: 30px;
+        padding: 30px 30px;
+    }
+    .how-works .boxes .single-box .part-img {
+        margin-bottom: 30px;
+    }
+    .what-waiting .single-box {
+        margin-bottom: 30px;
+    }
+    .what-waiting { 
+        padding: 60px 0 30px;
+    }
+    .what-waiting .single-box .part-txt h3 { 
+        font-size: 22px;
+    }
+    .what-waiting .single-box .part-txt p br {
+        display: none;
+    }
+    .testimonial-2  {
+        padding: 60px 0 56px;
+    }
+    .testimonial-2 .owl-thumbs .owl-thumb-item .user-data span.name  {
+        font-size: 20px;
+    }
+    .brand.affiliate-page {
+        padding-top: 60px;
+    }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+    .affiliate {
+        padding: 60px 0;
+    }
+    .affiliate .part-img {
+        display: block;
+        margin: 0;
+        margin-bottom: 30px;
+    }
+    .affiliate .part-img img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+    }
+    .affiliate .part-txt .title h2 {
+        font-size: 28px;
+        line-height: 38px;
+    }
+    .become-affiliate .single-box .part-txt h3 br {
+        display: none;
+    }
+    .become-affiliate .single-box .part-txt h3 {
+        font-size: 22px;
+        line-height: 32px;
+    }
+    .become-affiliate {
+        padding: 60px 0 20px;
+    }
+    .how-works .boxes .vector-how-it-work {
+        display: none;
+    }
+    .how-works {
+        padding: 60px 0 30px;
+    }
+    .how-works .boxes .single-box {
+        margin-bottom: 30px;
+        padding: 30px 30px;
+    }
+    .how-works .boxes .single-box .part-img {
+        margin-bottom: 30px;
+    }
+    .what-waiting .single-box {
+        margin-bottom: 30px;
+    }
+    .what-waiting { 
+        padding: 60px 0 30px;
+    }
+    .what-waiting .single-box .part-txt h3 { 
+        font-size: 22px;
+    }
+    .testimonial-2  {
+        padding: 60px 0 56px;
+    }
+    .testimonial-2 .owl-thumbs .owl-thumb-item  {
+        display: none;
+    }
+    .testimonial-2 .owl-thumbs .owl-thumb-item.active {
+        display: block;
+    }
+    .brand.affiliate-page {
+        padding-top: 60px;
+    }
+}
+@media only screen and (min-width: 480px) and (max-width: 575px) {
+    .affiliate {
+        padding: 60px 0;
+    }
+    .affiliate .part-img {
+        display: block;
+        margin: 0;
+        margin-bottom: 30px;
+    }
+    .affiliate .part-img img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+    }
+    .affiliate .part-txt .title h2 {
+        font-size: 28px;
+        line-height: 38px;
+    }
+    .become-affiliate .single-box .part-txt h3 br {
+        display: none;
+    }
+    .become-affiliate .single-box .part-txt h3 {
+        font-size: 22px;
+        line-height: 32px;
+    }
+    .become-affiliate {
+        padding: 60px 0 20px;
+    }
+    .how-works .boxes .vector-how-it-work {
+        display: none;
+    }
+    .how-works {
+        padding: 60px 0 30px;
+    }
+    .how-works .boxes .single-box {
+        margin-bottom: 30px;
+        padding: 30px 30px;
+    }
+    .how-works .boxes .single-box .part-img {
+        margin-bottom: 30px;
+    }
+    .what-waiting .single-box {
+        margin-bottom: 30px;
+    }
+    .what-waiting { 
+        padding: 60px 0 30px;
+    }
+    .what-waiting .single-box .part-txt h3 { 
+        font-size: 22px;
+    }
+    .testimonial-2  {
+        padding: 60px 0 56px;
+    }
+    .testimonial-2 .owl-thumbs .owl-thumb-item  {
+        display: none;
+    }
+    .testimonial-2 .owl-thumbs .owl-thumb-item.active {
+        display: block;
+    }
+    .brand.affiliate-page {
+        padding-top: 60px;
+    }
+}
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+    .affiliate {
+        padding: 60px 0;
+    }
+    .affiliate .part-img {
+        display: block;
+        margin: 0;
+        margin-bottom: 30px;
+    }
+    .affiliate .part-img img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+    }
+    .affiliate .part-txt .title h2 {
+        font-size: 28px;
+        line-height: 38px;
+    }
+    .become-affiliate .single-box .part-txt h3 br {
+        display: none;
+    }
+    .become-affiliate .single-box .part-txt h3 {
+        font-size: 22px;
+        line-height: 32px;
+    }
+    .become-affiliate {
+        padding: 60px 0 20px;
+    }
+    .how-works .boxes .vector-how-it-work {
+        display: none;
+    }
+    .how-works {
+        padding: 60px 0 30px;
+    }
+    .how-works .boxes .single-box {
+        margin-bottom: 30px;
+        padding: 30px 30px;
+    }
+    .how-works .boxes .single-box .part-img {
+        margin-bottom: 30px;
+    }
+    .what-waiting .single-box {
+        margin-bottom: 30px;
+    }
+    .what-waiting { 
+        padding: 60px 0 30px;
+    }
+    .what-waiting .single-box .part-txt h3 { 
+        font-size: 22px;
+    }
+    .testimonial-2  {
+        padding: 60px 0 56px;
+    }
+    .testimonial-2 .owl-thumbs .owl-thumb-item  {
+        display: none;
+    }
+    .testimonial-2 .owl-thumbs .owl-thumb-item.active {
+        display: block;
+    }
+    .brand.affiliate-page {
+        padding-top: 60px;
+    }
+}
