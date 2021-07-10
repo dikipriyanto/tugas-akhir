@@ -98,12 +98,12 @@
                                             <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Masuk</button>
                                         </div>
             
-                                        <div class="mt-4 text-center">
+                                        {{-- <div class="mt-4 text-center">
                                             <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="mt-4 text-center">
-                                            <p>Don't have an account ? <a href="auth-register.html" class="font-weight-medium text-primary"> Signup now </a> </p>
+                                            <p>Daftar Penyedia Bengkel service ? <a href="{{route('register')}}" class="font-weight-medium text-primary"> Daftar </a> </p>
                                         </div>
                                     </form>
                                 </div>

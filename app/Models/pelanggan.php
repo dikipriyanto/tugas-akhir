@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\pemesanan;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,4 +19,9 @@ class pelanggan extends Model
         'password',
         'token',
     ];
+
+    public function pemesanan()
+    {
+        return $this->hasMany(pemesanan::class,'id_pelanggan');
+    }
 }

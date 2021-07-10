@@ -9,23 +9,23 @@
                 <li class="menu-title">Menu</li>
 
                 <li>
-                    <a href="index.html" class="waves-effect">
-                        <i class="bx bx-home-circle"></i><span class="badge badge-pill badge-info float-right">3</span>
+                    <a href="{{route('dashboard')}}" class="waves-effect">
+                        <i class="bx bx-home-circle"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="{{route('daftarpemesanan')}}" class="waves-effect">
-                        <i class="mdi mdi-message-text-clock"></i>
+                        <i class="mdi mdi-message-text-clock"></i><span class="badge badge-pill badge-info float-right">3</span>
                         <span>Daftar Pemesanan</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-message-text-clock"></i>
-                        <span>Layouts</span>
+                    <a href="#"class="waves-effect">
+                        <i class="bx bx-task"></i>
+                        <span>Riwayat Pemesanan</span>
                     </a>
                 <li>
 

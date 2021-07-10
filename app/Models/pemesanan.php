@@ -7,6 +7,7 @@ use App\Models\merek_pesanan;
 use App\Models\estimasi_biaya;
 use App\Models\bengkelservice;
 use App\Models\status_service;
+use App\Models\pelanggan;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,7 @@ class Pemesanan extends Model
         'kelurahan',
         'alamat',
         'id_bengkel_service',
+        'id_pelanggan',
         'status_pesanan',
         'informasi_tambahan',
     ];
@@ -53,8 +55,14 @@ class Pemesanan extends Model
         return $this->belongsTo(bengkelservice::class,'id_bengkel_service');
     }
 
+    public function pelanggan()
+    {
+        return $this->belongsTo(pelanggan::class,'id_pelanggan');
+    }
+
     public function status_service()
     {
         return $this->hasMany(status_service::class,'id_pesanan');
     }
 }
+

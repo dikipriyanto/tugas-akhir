@@ -35,45 +35,97 @@
      <div class="blog-page blog-details">
         <div class="container">
             <div class="row">
-                <div class="col-12">
+                <div class="col-10">
                     <div class="card">
+                        @foreach ($status as $item)
                         <div class="card-body">
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-md-2 col-form-label">Text</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                                <label for="example-text-input" class="col-md-3 col-form-label">ID Bengkel Service</label>
+                                <div class="col-md-7">
+                                    <label for="example-text-input" class="col-md-5 col-form-label">: {{$item->id_bengkel_service}}</label>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="example-search-input" class="col-md-2 col-form-label">Search</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" type="search" value="How do I shoot web" id="example-search-input">
+                                <label for="example-text-input" class="col-md-3 col-form-label">Kode Pemesanan</label>
+                                <div class="col-md-7">
+                                    <label for="example-text-input" class="col-md-5 col-form-label">: {{$item->kode_pemesanan}}</label>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="example-email-input" class="col-md-2 col-form-label">Email</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" type="email" value="bootstrap@example.com" id="example-email-input">
+                                <label for="example-search-input" class="col-md-3 col-form-label">tanggal Pemesanan</label>
+                                <div class="col-md-7">
+                                    <label for="example-search-input" class="col-md-5 col-form-label">: {{$item->tanggal_pemesanan}}</label>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="example-url-input" class="col-md-2 col-form-label">URL</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" type="url" value="https://getbootstrap.com" id="example-url-input">
+                                <label for="example-email-input" class="col-md-3 col-form-label">Status Pesanan</label>
+                                <div class="col-md-7">
+                                    <label for="example-email-input" class="col-md-5 col-form-label">: {{$item->status_pesanan}}</label>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="example-tel-input" class="col-md-2 col-form-label">Telephone</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input">
+                            {{-- <div class="form-group row">
+                                <label for="example-url-input" class="col-md-5 col-form-label">URL</label>
+                                <div class="col-md-7">
+                                    <label for="example-url-input" class="col-md-5 col-form-label">URL</label>
                                 </div>
-                            </div>
+                            </div> --}}
+
+                                
+                                    <div class="py-2 mt-3">
+                                        <h3 class="font-size-15 font-weight-bold">Estimasi Biaya</h3>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    {{-- <th style="width: 70px;">No.</th> --}}
+                                                    <th>Item</th>
+                                                    <th class="text-right">Harga</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($item->estimasi_biaya as $t)
+                                                <tr>
+                                                    {{-- <td>01</td> --}}
+                                                    <td>Biaya Service</td>
+                                                    <td class="text-right">RP {{$t->biaya_service}}.000</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    {{-- <td>02</td> --}}
+                                                    <td>Biaya Sparepart</td>
+                                                    <td class="text-right">RP {{$t->biaya_sparepart}}.000</td>
+                                                </tr>
+                
+                                                <tr>
+                                                    {{-- <td>03</td> --}}
+                                                    <td>Biaya Kedatangan</td>
+                                                    <td class="text-right">RP {{$t->biaya_kedatangan}}.000</td>
+                                                </tr>
+                                    
+                                                <tr>
+                                                    <td colspan="1" class="border-0 text-right">
+                                                        <strong>Total</strong></td>
+                                                    <td class="border-0 text-right"><h4 class="m-0">RP {{$t->total_biaya}}.000</h4></td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            
                         </div>
+                        @endforeach
                     </div>
                 </div> <!-- end col -->
             </div>
         </div>
      </div>
+
+    <!-- end row -->
+
+</div> <!-- container-fluid -->
+</div>
+
      <!-- blog page end -->
 
      @include('pelanggan.layouts.script')

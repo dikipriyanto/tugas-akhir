@@ -41,7 +41,7 @@
         </div>
         <!-- END layout-wrapper -->
 
-    
+        @yield('script')
 
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>

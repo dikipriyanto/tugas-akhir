@@ -17,3 +17,10 @@
 
         <!-- form wizard init -->
         <script src="{{asset('assets/js/pages/form-wizard.init.js')}}"></script>
+        <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
+
+         <!-- Sweet Alerts js -->
+         <script src="{{asset('assets/libs/sweetalert2/sweetalert2.min.js')}}"></script>
+
+        <!-- Sweet Alerts js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>

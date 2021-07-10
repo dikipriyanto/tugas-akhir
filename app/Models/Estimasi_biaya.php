@@ -12,4 +12,13 @@ class Estimasi_biaya extends Model
     {
         return $this->belongsTo(pemesanan::class,'id_pesanan');
     }
+
+    protected $fillable = [
+        'biaya_service',
+        'biaya_sparepart',
+        'biaya_kedatangan',
+        'total_biaya',
+        'id_pesanan',
+    ];
+
 }

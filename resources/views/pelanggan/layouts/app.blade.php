@@ -223,9 +223,9 @@
                                                 <a class="nav-link" href="{{route('pelanggan.index')}}">Beranda</a>
                                             </li>
                                             @if (session('token_pelanggan'))
-                                            <li class="nav-item">
+                                            {{-- <li class="nav-item">
                                                 <a class="nav-link" href="#">Profil</a>
-                                            </li>
+                                            </li> --}}
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{route('statusservice')}}">Status Service</a>
                                             </li>
@@ -234,9 +234,9 @@
                                             </li>    
                                             @else{{-- @endif --}}
                                             
-                                            <li class="nav-item">
+                                            {{-- <li class="nav-item">
                                                 <a class="nav-link" href="#">Tentang Bengkel Service</a>
-                                            </li>
+                                            </li> --}}
 
                                             <li class="nav-item buy-nows">
                                                 <a class="nav-link buy-now" href="{{ route('loginbengkel1')}}">Login Bengkel</a>

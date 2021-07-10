@@ -14,6 +14,8 @@ use App\Models\masalah_pesanan;
 use App\Models\Pemesanan;
 use App\Models\jenis_pesanan;
 use App\Models\merek_pesanan;
+use App\Models\estimasi_biaya;
+use Redirect;
 
 class BengkelController extends Controller
 {
@@ -167,5 +169,73 @@ class BengkelController extends Controller
         $daftarpemesan = pemesanan::where("id_bengkel_service","LIKE","%{$id}%")->get();
 
         return view ('bengkel.pages.daftarpemesanan', compact('daftarpemesan'));
+    }
+
+    public function editPesanan(Request $request, $daftarpemesan)
+    {
+        $daftarpemesan = pemesanan::find($daftarpemesan);
+        
+        return view ('bengkel.pages.editpesanan', compact('daftarpemesan'));   
+    }
+
+    public function updatePesanan(Request $request)
+    {
+        $daftarpemesan = pemesanan::where('id',$request->id);
+        $daftarpemesan->update([
+            'status_pesanan' => $request->status_pesanan,
+        ]);
+
+        // $estimasi_biaya = estimasi_biaya::create([
+        //     'biaya_service' => $request->biaya_service,
+        //     'biaya_sparepart' => $request->biaya_sparepart,
+        //     'biaya_kedatangan' => $request->biaya_kedatangan,
+        //     'total_biaya' => $request->total_biaya,
+        //     'id_pesanan'=> $request->id,
+        // ]);
+        // dd($daftarpemesan);
+        return redirect ('/daftarpemesanan');   
+    }
+
+    public function estimasiBiaya(Request $request)
+    {
+        $daftarpemesan = pemesanan::where('id',$request->id);
+        $estimasi_biaya = estimasi_biaya::create([
+            'biaya_service' => $request->biaya_service,
+            'biaya_sparepart' => $request->biaya_sparepart,
+            'biaya_kedatangan' => $request->biaya_kedatangan,
+            'total_biaya' => $request->total_biaya,
+            'id_pesanan'=> $request->id,
+        ]);
+        // dd($daftarpemesan);
+        return redirect ('/daftarpemesanan');   
+    }
+
+    public function editBiaya(Request $request, $editbiaya)
+    {
+        $editbiaya = estimasi_biaya::find($editbiaya);
+        // dd($editbiaya);
+        return view ('bengkel.pages.editbiaya', compact('editbiaya'));
+    }
+
+    public function updateBiaya(Request $request)
+    {
+        $editbiaya = estimasi_biaya::where('id',$request->id);
+        $editbiaya->update([
+            'biaya_service' => $request->biaya_service,
+            'biaya_sparepart' => $request->biaya_sparepart,
+            'biaya_kedatangan' => $request->biaya_kedatangan,
+            'total_biaya' => $request->total_biaya,
+        ]);
+
+        return redirect('/daftarpemesanan');
+    }
+
+    public function hapusBiaya (Request $request)
+    {
+        $hapusbiaya = estimasi_biaya::where('id',$request->id);
+        $hapusbiaya->delete();
+        // dd($hapusbiaya);
+
+        return redirect ('/daftarpemesanan');
     }
 }

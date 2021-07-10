@@ -23,10 +23,12 @@ class CreatePemesanansTable extends Migration
             $table->string('kelurahan');
             $table->string('alamat');
             $table->bigInteger('id_bengkel_service')->unsigned();
+            $table->bigInteger('id_pelanggan')->unsigned();
             $table->enum('status_pesanan',['proses','selesai','batal']);
             $table->string('informasi_tambahan');
             $table->timestamps();
             $table->foreign('id_bengkel_service')->references('id')->on('bengkelservice')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_pelanggan')->references('id')->on('pelanggan')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

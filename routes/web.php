@@ -55,8 +55,12 @@ Route::post('/postlogin', 'bengkel\BengkelController@postlogin')->name('loginben
 Route::get('/logoutbengkel', 'bengkel\BengkelController@logout')->name('logoutbengkel');
 Route::get('/profil', 'bengkel\profilbengkelController@profil')->name('bengkelprofil');
 Route::get('/daftarpemesanan', 'bengkel\BengkelController@daftarPemesanan')->name('daftarpemesanan');
-
-
+Route::get('/editpesanan/{id}', 'bengkel\BengkelController@editPesanan')->name('editpesanan');
+Route::post('/updatepesanan', 'bengkel\BengkelController@updatePesanan')->name('updatepesanan');
+Route::post('/estimasibiaya', 'bengkel\BengkelController@estimasiBiaya')->name('estimasiBiaya');
+Route::get('/editbiaya/{id}', 'bengkel\BengkelController@editBiaya')->name('editBiaya');
+Route::post('/updateBiaya', 'bengkel\BengkelController@updateBiaya')->name('updatebiaya');
+Route::delete('/hapusBiaya/{id}', 'bengkel\BengkelController@hapusBiaya')->name('hapusbiaya');
 
 // Route::get('/status', function () {
 //         return view('pelanggan.pages.status');

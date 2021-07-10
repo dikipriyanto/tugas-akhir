@@ -15,7 +15,7 @@
                                 <form action="{{ route('pelanggan.pesan') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="bengkel_id" id="#" value="{{ $id }}">
-                                    {{-- <input type="text" name="bengkel_nama" id="" value="{{ $nama_jasa_service }}"> --}}
+                                    <input type="hidden" name="pelanggan_id" id="" value="{{ $id_pelanggan->id}}">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">

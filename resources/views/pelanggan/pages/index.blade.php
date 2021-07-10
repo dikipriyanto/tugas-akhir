@@ -69,4 +69,20 @@
         })
     </script>
     @endif
+
+    {{-- <script>
+        Swal.fire({
+            title:"Are you sure?",
+            text:"You won't be able to revert this!",
+            type:"warning",
+            showCancelButton:!0,
+            confirmButtonColor:"#34c38f",
+            cancelButtonColor:"#f46a6a",
+            confirmButtonText:"Yes, delete it!"
+        }).then(function(t) {
+                t.value && Swal.fire("Deleted!", "Your file has been deleted.", "success")
+        })
+        
+    </script> --}}
+
 @endsection

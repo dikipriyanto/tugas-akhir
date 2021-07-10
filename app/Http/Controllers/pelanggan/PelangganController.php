@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Validator;
 use App\Models\Pelanggan;
 use App\Models\kategori_service;
 use App\Models\bengkelservice;
@@ -107,6 +108,7 @@ class PelangganController extends Controller
                 $request->session()->put('token_pelanggan', $this->token());
                 $request->session()->put('namaPelanggan', $pelanggan->nama);
                 $request->session()->put('emailPelanggan', $pelanggan->email);
+                $request->session()->put('id_pelanggan', $pelanggan->id);
 
                 Pelanggan::where('email', $request->email)->update(
                     [
@@ -163,20 +165,24 @@ class PelangganController extends Controller
 
     public function status(Request $request)
     {   
-        $status = status_service::all();
+        // $status = pemesanan::findOrFail($request->session()->get('id_pelanggan'));
+        $id = $request->session()->get('id_pelanggan');
+        $status = pemesanan::where("id_pelanggan","LIKE","%{$id}%")->get();
         // dd($status);
+
         return view ('pelanggan.pages.status', compact('status'));
     }
 
     public function formpemesanan(Request $request, $id)
     {   
+        $id_pelanggan = Pelanggan::findOrfail($request->session()->get('id_pelanggan'));
+        // dd($id_pelanggan);
         $kategori = $request->kategori; 
         $masalah = Masalah::with('kategori_service')
         ->whereHas('kategori_service', function($query)use($request){
             $query->where('nama_kategori', $request->kategori);
         })->get();
-        // dd($masalah);
-        
+    
          
         $jenis = Jenis::with('kategori_service')
         ->whereHas('kategori_service', function($query)use($request){
@@ -189,7 +195,6 @@ class PelangganController extends Controller
             $query->where('nama_kategori', $request->kategori);
         })->get();
 
-        return view ('pelanggan.pages.pemesanan', compact('kategori','masalah','jenis','merek', 'id'));
-
+        return view ('pelanggan.pages.pemesanan', compact('kategori','masalah','jenis','merek', 'id', 'id_pelanggan'));
     }
 }

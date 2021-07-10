@@ -11,12 +11,15 @@ use App\Models\bengkelservice;
 use App\Models\jenis_pesanan;
 use App\Models\merek_pesanan;
 use App\Models\status_service;
+use App\Models\pelanggan;
+
 
 class PesananController extends Controller
 {
     public function buatPesanan(Request $request){
         $bengkelservice = bengkelservice::findOrFail($request->bengkel_id);
-        // dd($bengkelservice);
+        $pelanggan = pelanggan::findOrFail($request->pelanggan_id);
+        // dd($pelanggan);
         $pesanan = Pemesanan::create([
             'kode_pemesanan' => $request->kode_pemesanan = mt_rand(1111, 9999),
             'nama_pemesan' => $request->nama_pemesan,
@@ -26,6 +29,7 @@ class PesananController extends Controller
             'kelurahan' => $request->kelurahan,
             'alamat' => $request->alamat,
             'id_bengkel_service' => $bengkelservice->id,
+            'id_pelanggan' => $pelanggan->id,
             'informasi_tambahan' => $request->informasi_tambahan,
         ]);
 
@@ -57,13 +61,6 @@ class PesananController extends Controller
                 'id_pesanan' => $pesanan->id,
             ]);
         }
-
-        $status = status_service::create([
-            'id_pesanan' => $pesanan->id,
-            'nama_pelanggan' => $pesanan->nama_pemesan,
-            'tanggal_pemesanan' => $pesanan->tanggal_pemesanan,
-            
-        ]);
 
         return redirect ('/status')->with('success', '#') ;
 
