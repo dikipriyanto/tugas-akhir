@@ -44,6 +44,7 @@ route::get('/status', 'pelanggan\PelangganController@status')->name('statusservi
 route::get('/formpemesanan/{id}', 'pelanggan\PelangganController@formpemesanan')->name('formpemesanan');
 
 Route::post('/buat-pesanan', 'pelanggan\PesananController@buatPesanan')->name('pelanggan.pesan');
+route::get('/riwayatpemesanan', 'pelanggan\PelangganController@riwayatpemesanan')->name('riwayatpemesanan');
 
 
 /* Bengkel Service */
@@ -61,6 +62,8 @@ Route::post('/estimasibiaya', 'bengkel\BengkelController@estimasiBiaya')->name('
 Route::get('/editbiaya/{id}', 'bengkel\BengkelController@editBiaya')->name('editBiaya');
 Route::post('/updateBiaya', 'bengkel\BengkelController@updateBiaya')->name('updatebiaya');
 Route::delete('/hapusBiaya/{id}', 'bengkel\BengkelController@hapusBiaya')->name('hapusbiaya');
+Route::delete('/hapuspesanan/{id}', 'bengkel\BengkelController@hapusPesanan')->name('hapuspesanan');
+Route::get('/riwayatpesanan', 'bengkel\BengkelController@riwayatpesanan')->name('riwayatpesanan');
 
 // Route::get('/status', function () {
 //         return view('pelanggan.pages.status');

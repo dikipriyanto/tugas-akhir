@@ -53,7 +53,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input name="biaya_service" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-service" 
+                            <input value="0" name="biaya_service" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-service" 
                             onkeyup="return totalBiaya(parseInt(this.value), parseInt(document.querySelector('#biaya-sparepart').value), parseInt( document.querySelector('#biaya-kedatangan').value) )">
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input name="biaya_sparepart" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-sparepart" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(this.value), parseInt(document.querySelector('#biaya-kedatangan').value) )">
+                            <input value="0" name="biaya_sparepart" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-sparepart" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(this.value), parseInt(document.querySelector('#biaya-kedatangan').value) )">
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input name="biaya_kedatangan" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-kedatangan" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(document.querySelector('#biaya-sparepart').value), parseInt(this.value) )">
+                            <input value="0" name="biaya_kedatangan" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-kedatangan" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(document.querySelector('#biaya-sparepart').value), parseInt(this.value) )">
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input name="total_biaya" type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="total-biaya">
+                            <input value="0" name="total_biaya" type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="total-biaya">
                         </div>
                     </div>
                 </div>
@@ -131,13 +131,13 @@
                     <tbody>
                         @foreach ($daftarpemesan->estimasi_biaya as $t)
                     <tr>
-                        <td>RP {{$t->biaya_service}}.000</td>
+                        <td>RP {{$t->biaya_service}}</td>
                         
-                        <td>RP {{$t->biaya_sparepart}}.000</td>
+                        <td>RP {{$t->biaya_sparepart}}</td>
 
-                        <td>RP {{$t->biaya_kedatangan}}.000</td>
+                        <td>RP {{$t->biaya_kedatangan}}</td>
 
-                        <td>RP {{$t->total_biaya}}.000</td>
+                        <td>RP {{$t->total_biaya}}</td>
 
                         <td>
                             <a href="{{route('editBiaya', $t->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>

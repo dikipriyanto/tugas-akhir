@@ -90,7 +90,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label for="example-date-input" class="col-md-2 col-form-label">Pilih Tanggal Pemesanan</label>
+                                                    <label for="example-date-input" class="col-md-2 col-form-label">Pilih Tanggal Service</label>
                                                     <div class="col-md-10">
                                                         <input name="tanggal_pemesanan" class="form-control" type="date" value="2021-07-19" id="example-date-input">
                                                     </div>

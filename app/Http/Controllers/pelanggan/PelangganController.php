@@ -15,6 +15,7 @@ use App\Models\Jenis;
 use App\Models\Merek;
 use App\Models\pemesanan;
 use App\Models\status_service;
+use App\Models\riwayatPesanan;
 
 class PelangganController extends Controller
 {
@@ -175,26 +176,44 @@ class PelangganController extends Controller
 
     public function formpemesanan(Request $request, $id)
     {   
-        $id_pelanggan = Pelanggan::findOrfail($request->session()->get('id_pelanggan'));
-        // dd($id_pelanggan);
-        $kategori = $request->kategori; 
-        $masalah = Masalah::with('kategori_service')
-        ->whereHas('kategori_service', function($query)use($request){
-            $query->where('nama_kategori', $request->kategori);
-        })->get();
+        $id1 = $request->session()->get('id_pelanggan');
+        if($id1 !== null){
+            $id_pelanggan = Pelanggan::findOrFail($request->session()->get('id_pelanggan'));
+            
+            $kategori = $request->kategori; 
+            $masalah = Masalah::with('kategori_service')
+            ->whereHas('kategori_service', function($query)use($request){
+                $query->where('nama_kategori', $request->kategori);
+            })->get();
+        
+             
+            $jenis = Jenis::with('kategori_service')
+            ->whereHas('kategori_service', function($query)use($request){
+                $query->where('nama_kategori', $request->kategori);
+            })->get();
     
-         
-        $jenis = Jenis::with('kategori_service')
-        ->whereHas('kategori_service', function($query)use($request){
-            $query->where('nama_kategori', $request->kategori);
-        })->get();
-
+        
+            $merek = Merek::with('kategori_service')
+            ->whereHas('kategori_service', function($query)use($request){
+                $query->where('nama_kategori', $request->kategori);
+            })->get();
     
-        $merek = Merek::with('kategori_service')
-        ->whereHas('kategori_service', function($query)use($request){
-            $query->where('nama_kategori', $request->kategori);
-        })->get();
-
-        return view ('pelanggan.pages.pemesanan', compact('kategori','masalah','jenis','merek', 'id', 'id_pelanggan'));
+            return view ('pelanggan.pages.pemesanan', compact('kategori','masalah','jenis','merek', 'id', 'id_pelanggan'));
+        }else{
+            return redirect ('/')->with('gagalmasuk', ' Silahkan login') ;
+        }
+       
     }
+
+    public function riwayatpemesanan(Request $request)
+    {
+        $id = $request->session()->get('id_pelanggan');
+        $riwayatpemesanan = riwayatpesanan::where("id_pelanggan","LIKE","%{$id}%")->get();
+
+
+        return view ('pelanggan.pages.riwayat', compact('riwayatpemesanan'));
+    }
+
+    
+
 }

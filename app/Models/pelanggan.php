@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\pemesanan;
+use App\Models\riwayatPesanan;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

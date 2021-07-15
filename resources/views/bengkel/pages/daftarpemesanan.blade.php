@@ -5,14 +5,14 @@
         <div class="card">
             <div class="card-body">
                 <div class="row mb-2">
-                    <div class="col-sm-4">
+                    {{-- <div class="col-sm-4">
                         <div class="search-box mr-2 mb-2 d-inline-block">
                             <div class="position-relative">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <i class="bx bx-search-alt search-icon"></i>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- <div class="col-sm-8">
                         <div class="text-sm-right">
                             <button type="button" class="btn btn-success btn-rounded waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-plus mr-1"></i> Add New Order</button>
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-centered table-nowrap">
+                    <table class="table table-centered table-nowrap" id="table-halaman-daftarpemesan">
                         <thead class="thead-light">
                             <tr>
                                 <th>Kode Pemesan</th>
@@ -37,7 +37,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($daftarpemesan as $item)
+                            @foreach ($daftarpemesan as $key => $item)
                             <tr>
                                 <td>{{$item->kode_pemesanan}}</td>
                                 <td>{{$item->nama_pemesan}}</td>
@@ -47,20 +47,38 @@
                                 <td>{{$item->kelurahan}}</td>
                                 <td>{{$item->alamat}}</td>
                                 <td>
-                                    <span class="badge badge-pill badge-soft-warning font-size-12">{{$item->status_pesanan}}</span>
+                                    @if ($item->status_pesanan == 'proses')
+                                    <span
+                                        class="badge badge-pill badge-soft-info font-size-14">{{$item->status_pesanan}}</span>
+                                    @elseif($item->status_pesanan == 'selesai')
+                                    <span
+                                        class="badge badge-pill badge-soft-success font-size-14">{{$item->status_pesanan}}</span>
+                                    @else
+                                    <span
+                                        class="badge badge-pill badge-soft-danger font-size-14">{{$item->status_pesanan}}</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-sm btn-rounded" data-toggle="modal" data-target=".exampleModal">
+                                    <button type="button" class="btn btn-primary btn-sm btn-rounded" id="detail-halaman-daftarpemesan" data-id="{{$key}}" onclick="showModal({{$key}})">
                                         Lihat Detail
                                     </button>
                                 </td>
                                 <td>
-                                    <a href="{{route('editpesanan', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                    <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="mdi mdi-close font-size-18"></i></a>
+                                    <a href="{{route('editpesanan', $item->id)}}" class="mr-3 text-primary"
+                                        data-toggle="tooltip" data-placement="top" title=""
+                                        data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                    <a href="#" onclick="deleteRow({{$item->id}})" class="text-danger"
+                                        data-toggle="tooltip" data-placement="top" title=""
+                                        data-original-title="Delete"><i class="mdi mdi-close font-size-18"></i></a>
+                                    <form action="{{ route('hapuspesanan', $item->id) }}" method="post"
+                                        id="form-hapus-{{$item->id}}">
+                                        @csrf
+                                        <input type="hidden" name="_method" value="DELETE">
+                                    </form>
                                 </td>
                             </tr>
-                        @endforeach
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -94,93 +112,62 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Keluhan Detail</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <p class="mb-2">masalah :@foreach ($item->masalah_pesanan as $t)
-                    {{$t->nama_masalah}}
-                @endforeach</p>
-                <p class="mb-2">merek :@foreach ($item->merek_pesanan as $t)
-                    {{$t->nama_merek}}
-                @endforeach</p>
-                <p class="mb-2">jenis :@foreach ($item->jenis_pesanan as $t)
-                    {{$t->nama_jenis}}
-                @endforeach</p>
-                <p class="mb-2">Informasi Tambahan :@foreach ($daftarpemesan as $item)
-                    {{$item->informasi_tambahan}}
-                @endforeach</p>
-
-                <div class="table-responsive">
-                    <table class="table table-centered table-nowrap">
-                        <thead>
-                            <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Price</th>
-                            </tr>
-                        </thead>
-                        {{-- <tbody>
-                            <tr>
-                                <th scope="row">
-                                    <div>
-                                        <img src="assets/images/product/img-7.png" alt="" class="avatar-sm">
-                                    </div>
-                                </th>
-                                <td>
-                                    <div>
-                                        <h5 class="text-truncate font-size-14">Wireless Headphone (Black)</h5>
-                                        <p class="text-muted mb-0">$ 225 x 1</p>
-                                    </div>
-                                </td>
-                                <td>$ 255</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div>
-                                        <img src="assets/images/product/img-4.png" alt="" class="avatar-sm">
-                                    </div>
-                                </th>
-                                <td>
-                                    <div>
-                                        <h5 class="text-truncate font-size-14">Hoodie (Blue)</h5>
-                                        <p class="text-muted mb-0">$ 145 x 1</p>
-                                    </div>
-                                </td>
-                                <td>$ 145</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <h6 class="m-0 text-right">Sub Total:</h6>
-                                </td>
-                                <td>
-                                    $ 400
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <h6 class="m-0 text-right">Shipping:</h6>
-                                </td>
-                                <td>
-                                    Free
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <h6 class="m-0 text-right">Total:</h6>
-                                </td>
-                                <td>
-                                    $ 400
-                                </td>
-                            </tr>
-                        </tbody> --}}
-                    </table>
-                </div>
+            
+            <div class="modal-body" id="body-modal">
             </div>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    
+    function deleteRow(id) {
+        swal({
+            title: "Apa anda yakin?",
+            text: "Data akan terhapus secara permanen !",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $('#form-hapus-' + id).submit();
+            }
+        })
+    }
+
+    function showModal(key){
+        console.log(key)
+        const data = {!! $daftarpemesan !!}
+        $('.exampleModal').modal('show')
+
+        let html = '<p class="mb-2"><b>Masalah</b> :</p>'
+        data[key].masalah_pesanan.map((masalah) => {
+            html += '<p>'+ masalah.nama_masalah +'</p>'
+        })
+
+        html +='<p class="mb-2"><b>Merek</b> :</p>'
+        data[key].merek_pesanan.map((merek) => {
+            html += '<p>'+ merek.nama_merek +'</p>'
+        })
+
+        html +='<p class="mb-2"><b>Jenis</b> :</p>'
+        data[key].jenis_pesanan.map((jenis) => {
+            html += '<p>'+ jenis.nama_jenis +'</p>'
+        })
+        
+        // <p class="mb-2">Merek : ${data[key].merek_pesanan[0].nama_merek}</p>
+        // <p class="mb-2">Jenis : ${data[key].jenis_pesanan[0].nama_jenis}</p>
+        html += `<p class="mb-2"><b>Informasi Tambahan</b> : ${data[key].informasi_tambahan}</p>`
+
+        $('#body-modal').html(html)
+    }
+</script>
 @endsection

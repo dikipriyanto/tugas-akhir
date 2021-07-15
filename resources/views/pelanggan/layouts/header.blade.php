@@ -65,9 +65,9 @@
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-6 d-xl-block d-lg-block d-flex align-items-center">
                                     <div class="logo">
-                                        <a href="index-2.html">
+                                        {{-- <a href="index-2.html">
                                             <img src="pelanggan/assets/img/logo.png" alt="">
-                                        </a>
+                                        </a> --}}
                                     </div>
                                 </div>
                                 <div class="col-6 d-xl-none d-lg-none d-block">

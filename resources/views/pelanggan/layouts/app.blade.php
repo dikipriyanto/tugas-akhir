@@ -305,6 +305,13 @@
                 // $('#exampleModal').tabs({active : '#signUp'})
             </script>
         @endif
+
+        @if (Session::has('gagalmasuk'))
+            <script>
+                $('#exampleModal').modal({show:true})
+                // $('#exampleModal').tabs({active : '#signUp'})
+            </script>
+        @endif
         
     </body>
 </html>

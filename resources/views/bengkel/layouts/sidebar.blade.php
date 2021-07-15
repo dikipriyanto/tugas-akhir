@@ -16,6 +16,13 @@
                 </li>
 
                 <li>
+                    <a href="{{route('bengkelprofil')}}" class="waves-effect">
+                        <i class="bx bx-user-circle"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="{{route('daftarpemesanan')}}" class="waves-effect">
                         <i class="mdi mdi-message-text-clock"></i><span class="badge badge-pill badge-info float-right">3</span>
                         <span>Daftar Pemesanan</span>
@@ -23,11 +30,18 @@
                 </li>
 
                 <li>
-                    <a href="#"class="waves-effect">
+                    <a href="{{route('riwayatpesanan')}}"class="waves-effect">
                         <i class="bx bx-task"></i>
                         <span>Riwayat Pemesanan</span>
                     </a>
                 <li>
+                
+                    <li>
+                        <a href="{{ route('logoutbengkel')}}" class="waves-effect">
+                            <i class="mdi mdi-logout"></i>
+                            <span>LOGOUT</span>
+                        </a>
+                    <li>
 
             </ul>
         </div>
