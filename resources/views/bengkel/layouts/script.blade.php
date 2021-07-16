@@ -24,3 +24,8 @@
 
         <!-- Sweet Alerts js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+        {{-- <!-- apexcharts -->
+        <script src="{{asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script>
+
+        <!-- apexcharts init -->
+        <script src="{{asset('assets/js/pages/apexcharts.init.js')}}"></script> --}}

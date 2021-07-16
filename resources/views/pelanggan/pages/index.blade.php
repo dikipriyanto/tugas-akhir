@@ -8,10 +8,8 @@
                         {{-- <div class="container"> --}}
                             <div class="banner-content">
                                 <div class="row justify-content-center">
-                                    {{-- <h1>Professional
-                                         For 
-                                        Every Business
-                                    </h1> --}}
+                                    <h1>Pemesanan Tukang Service Elektronik
+                                    </h1>
                                     <div class="col-lg-7">
                                         <div class="card">
                                             <div class="card-body">
@@ -23,7 +21,7 @@
                                                                 <select name="caribengkel" class="form-control" method="get" href="{{ route('caribengkel') }}">
                                                                     <option value="#">PILIH BENGKEL SERVICE</option>
                                                                     @foreach ($kategori_services as $item)
-                                                                        <option value="{{ $item->nama_kategori}}">{{ $item->nama_kategori}}</option> 
+                                                                        <option value="{{ $item->nama_kategori}}"> {{ $item->nama_kategori}}</option> 
                                                                     @endforeach
                                                                 </select>
                                                             </div>

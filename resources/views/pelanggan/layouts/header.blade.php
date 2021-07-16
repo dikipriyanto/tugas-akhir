@@ -94,13 +94,13 @@
                                                 <a class="nav-link" href="{{route('statusservice')}}">Status Service</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">Riwayat Pemesanan</a>
+                                                <a class="nav-link" href="{{route('riwayatpemesanan')}}">Riwayat Pemesanan</a>
                                             </li>    
                                             @else{{-- @endif --}}
                                             
-                                            <li class="nav-item">
+                                            {{-- <li class="nav-item">
                                                 <a class="nav-link" href="#">Tentang Bengkel Service</a>
-                                            </li>
+                                            </li> --}}
 
                                             <li class="nav-item buy-nows">
                                                 <a class="nav-link buy-now" href="{{ route('loginbengkel1')}}">Login Bengkel</a>

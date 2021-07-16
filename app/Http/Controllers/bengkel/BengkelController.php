@@ -172,6 +172,15 @@ class BengkelController extends Controller
         return view ('bengkel.pages.daftarpemesanan', compact('daftarpemesan'));
     }
 
+    // public function jumlahPemesanan(Request $request)
+    // {   
+    //     $id = $request->session()->get('id_bengkel');
+    //     $jumlahpemesanan = pemesanan::where("id_bengkel_service","LIKE","%{$id}%")->get();
+
+    //     return view ('bengkel.layouts.sidebar', compact('jumlahpemesanan'));
+    // }
+
+
     public function editPesanan(Request $request, $daftarpemesan)
     {
         $daftarpemesan = pemesanan::find($daftarpemesan);
@@ -186,14 +195,6 @@ class BengkelController extends Controller
             'status_pesanan' => $request->status_pesanan,
         ]);
 
-        // $estimasi_biaya = estimasi_biaya::create([
-        //     'biaya_service' => $request->biaya_service,
-        //     'biaya_sparepart' => $request->biaya_sparepart,
-        //     'biaya_kedatangan' => $request->biaya_kedatangan,
-        //     'total_biaya' => $request->total_biaya,
-        //     'id_pesanan'=> $request->id,
-        // ]);
-        // dd($daftarpemesan);
         return redirect ('/daftarpemesanan');   
     }
 
@@ -245,24 +246,48 @@ class BengkelController extends Controller
 
     public function hapusPesanan(Request $request)
     {
-        $total_biaya = estimasi_biaya::where("id_pesanan","LIKE","%{$request->id}%")->first('total_biaya');
-        $daftarpemesan = pemesanan::findOrFail($request->id);
+        $total_biaya = estimasi_biaya::where("id_pesanan","LIKE","%{$request->id}%")->first();
+        if($total_biaya !== null){
+            $daftarpemesan = pemesanan::findOrFail($request->id);
 
-        $riwayatpesanan = riwayatpesanan::create([
-            'id_bengkel_service' => $daftarpemesan->id_bengkel_service,
-            'id_pelanggan' => $daftarpemesan->id_pelanggan,
-            'kode_pemesanan' => $daftarpemesan->kode_pemesanan,
-            'nama_pemesan' => $daftarpemesan->nama_pemesan,
-            'tanggal_pemesanan' => $daftarpemesan->tanggal_pemesanan,
-            'status_pesanan' => $daftarpemesan->status_pesanan,
-            'total_biaya' => $total_biaya->total_biaya,
-        ]);
+            $riwayatpesanan = riwayatpesanan::create([
+                'id_bengkel_service' => $daftarpemesan->id_bengkel_service,
+                'id_pelanggan' => $daftarpemesan->id_pelanggan,
+                'kode_pemesanan' => $daftarpemesan->kode_pemesanan,
+                'nama_pemesan' => $daftarpemesan->nama_pemesan,
+                'tanggal_pemesanan' => $daftarpemesan->tanggal_pemesanan,
+                'status_pesanan' => $daftarpemesan->status_pesanan,
+                'biaya_service' => $total_biaya->biaya_service,
+                'biaya_sparepart' => $total_biaya->biaya_sparepart,
+                'biaya_kedatangan' => $total_biaya->biaya_kedatangan,
+                'total_biaya' => $total_biaya->total_biaya,
+            ]);
 
-        $hapuspesanan = pemesanan::findOrFail($request->id);
-        $hapuspesanan->delete();
-        // dd($total_biaya);
-        
-        return redirect ('/daftarpemesanan');
+            $hapuspesanan = pemesanan::findOrFail($request->id);
+            $hapuspesanan->delete();
+            // dd($total_biaya);
+            
+            return redirect ('/daftarpemesanan');
+        }else{
+            $daftarpemesan = pemesanan::findOrFail($request->id);
+
+            $riwayatpesanan = riwayatpesanan::create([
+                'id_bengkel_service' => $daftarpemesan->id_bengkel_service,
+                'id_pelanggan' => $daftarpemesan->id_pelanggan,
+                'kode_pemesanan' => $daftarpemesan->kode_pemesanan,
+                'nama_pemesan' => $daftarpemesan->nama_pemesan,
+                'tanggal_pemesanan' => $daftarpemesan->tanggal_pemesanan,
+                'status_pesanan' => $daftarpemesan->status_pesanan,
+                // 'nota_biaya' => $total_biaya->total_biaya,
+            ]);
+
+            $hapuspesanan = pemesanan::findOrFail($request->id);
+            $hapuspesanan->delete();
+            // dd($total_biaya);
+            
+            return redirect ('/daftarpemesanan');
+        }
+        dd($total_biaya);
     }
 
     public function riwayatpesanan(Request $request)
@@ -271,6 +296,20 @@ class BengkelController extends Controller
         $riwayatpemesan = riwayatpesanan::where("id_bengkel_service","LIKE","%{$id}%")->get();
 
         return view ('bengkel.pages.riwayat', compact('riwayatpemesan'));
+    }
+
+    public function daftartransaksi(Request $request)
+    {
+        $id = $request->session()->get('id_bengkel');
+        $riwayatpemesan = riwayatpesanan::where("id_bengkel_service","LIKE","%{$id}%")->get();
+
+        $transaksi = [];
+        foreach ($riwayatpemesan as $item) {
+            $transaksi [] = $item;
+        }
+        // dd($transaksi);
+
+        return view ('bengkel.pages.daftartransaksi');
     }
 
     

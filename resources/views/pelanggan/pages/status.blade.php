@@ -60,7 +60,20 @@
                             <div class="form-group row">
                                 <label for="example-email-input" class="col-md-3 col-form-label">Status Pesanan</label>
                                 <div class="col-md-7">
-                                    <label for="example-email-input" class="col-md-5 col-form-label">: {{$item->status_pesanan}}</label>
+                                    <label for="example-email-input" class="col-md-5 col-form-label">: 
+                                        <td>@if ($item->status_pesanan == 'proses')
+                                        <span
+                                            class="badge badge-pill badge-soft-info font-size-14">{{$item->status_pesanan}}</span>
+                                        @elseif($item->status_pesanan == 'selesai')
+                                        <span
+                                            class="badge badge-pill badge-soft-success font-size-14">{{$item->status_pesanan}}</span>
+                                        @elseif($item->status_pesanan == 'request')
+                                        <span
+                                            class="badge badge-pill badge-soft-warning font-size-14">{{$item->status_pesanan}}</span>
+                                        @elseif($item->status_pesanan == 'batal')
+                                        <span
+                                            class="badge badge-pill badge-soft-danger font-size-14">{{$item->status_pesanan}}</span>
+                                        @endif</td></label>
                                 </div>
                             </div>
                             {{-- <div class="form-group row">

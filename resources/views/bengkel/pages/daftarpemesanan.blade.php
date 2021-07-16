@@ -53,7 +53,10 @@
                                     @elseif($item->status_pesanan == 'selesai')
                                     <span
                                         class="badge badge-pill badge-soft-success font-size-14">{{$item->status_pesanan}}</span>
-                                    @else
+                                    @elseif($item->status_pesanan == 'request')
+                                    <span
+                                        class="badge badge-pill badge-soft-warning font-size-14">{{$item->status_pesanan}}</span>
+                                    @elseif($item->status_pesanan == 'batal')
                                     <span
                                         class="badge badge-pill badge-soft-danger font-size-14">{{$item->status_pesanan}}</span>
                                     @endif

@@ -64,6 +64,7 @@ Route::post('/updateBiaya', 'bengkel\BengkelController@updateBiaya')->name('upda
 Route::delete('/hapusBiaya/{id}', 'bengkel\BengkelController@hapusBiaya')->name('hapusbiaya');
 Route::delete('/hapuspesanan/{id}', 'bengkel\BengkelController@hapusPesanan')->name('hapuspesanan');
 Route::get('/riwayatpesanan', 'bengkel\BengkelController@riwayatpesanan')->name('riwayatpesanan');
+Route::get('/daftartransaksi', 'bengkel\BengkelController@daftartransaksi')->name('daftartransaksi');
 
 // Route::get('/status', function () {
 //         return view('pelanggan.pages.status');

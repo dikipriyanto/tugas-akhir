@@ -21,7 +21,10 @@ class CreateRiwayatPesanansTable extends Migration
             $table->string('nama_pemesan');
             $table->string('tanggal_pemesanan');
             $table->string('status_pesanan');
-            $table->string('total_biaya');
+            $table->string('biaya_service')->default('0');
+            $table->string('biaya_sparepart')->default('0');
+            $table->string('biaya_kedatangan')->default('0');
+            $table->string('total_biaya')->default('0');
             $table->timestamps();
         });
     }

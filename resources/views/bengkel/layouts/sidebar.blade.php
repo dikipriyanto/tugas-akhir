@@ -34,14 +34,21 @@
                         <i class="bx bx-task"></i>
                         <span>Riwayat Pemesanan</span>
                     </a>
+                </li>
+
                 <li>
+                    <a href="{{route('daftartransaksi')}}"class="waves-effect">
+                        <i class="dripicons-align-justify"></i>
+                        <span>Daftar Transaksi</span>
+                    </a>
+                </li>
                 
-                    <li>
-                        <a href="{{ route('logoutbengkel')}}" class="waves-effect">
-                            <i class="mdi mdi-logout"></i>
-                            <span>LOGOUT</span>
-                        </a>
-                    <li>
+                <li>
+                    <a href="{{ route('logoutbengkel')}}" class="waves-effect">
+                        <i class="mdi mdi-logout"></i>
+                        <span>LOGOUT</span>
+                    </a>
+                <li>
 
             </ul>
         </div>

@@ -230,7 +230,7 @@
                                                 <a class="nav-link" href="{{route('statusservice')}}">Status Service</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">Riwayat Pemesanan</a>
+                                                <a class="nav-link" href="{{route('riwayatpemesanan')}}">Riwayat Pemesanan</a>
                                             </li>    
                                             @else{{-- @endif --}}
                                             
