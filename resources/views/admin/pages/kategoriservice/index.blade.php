@@ -21,7 +21,7 @@
                         <form action="{{ route('kategoriservice.destroy', $kategori_service->id)}}" method="post" id="form-hapus-{{$kategori_service->id}}">
                             @csrf
                             <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="page" value="{{ $_GET['page'] }}">
+                            {{-- <input type="hidden" name="page" value="{{ $_GET['page'] }}"> --}}
                         </form>
                         <a href="{{ route('kategoriservice.edit', $kategori_service->id) }}" class="btn btn-warning">edit</a>
                         <button onclick="deleteRow({{$kategori_service->id}})" class="btn btn-danger">Hapus</button>

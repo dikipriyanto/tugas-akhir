@@ -3,6 +3,7 @@
 <html lang="en">
     <head>
         @include('admin.layouts.head')
+        @cloudinaryJS
     </head>
 
     <body data-sidebar="dark">

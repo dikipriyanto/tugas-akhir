@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\admin; 
+use App\Models\riwayatPesanan;
 
 
 
@@ -139,6 +140,13 @@ class AdminController extends Controller
         $request->session()->flush();
 
         return redirect('/admin/login');
+    }
+
+    public function datatransaksi (Request $request)
+    {
+        $datatransaksi = riwayatpesanan::all();
+
+        return view ('admin.pages.datatransaksi', compact('datatransaksi'));
     }
 }
     

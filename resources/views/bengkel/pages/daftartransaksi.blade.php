@@ -6,6 +6,9 @@
 </div>
 
 <script>
+    var total_pesanan = {!! json_encode($month_total) !!};
+    var selesai_pesanan = {!! json_encode($month_selesai) !!};
+    var batal_pesanan = {!! json_encode($month_batal) !!};
 Highcharts.chart('chartTransaksi', {
     chart: {
         type: 'column'
@@ -42,11 +45,12 @@ Highcharts.chart('chartTransaksi', {
     tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
-        useHTML: true
+        useHTML: true,
     },
+    colors: ['#4572A7', '#1fff00', '#ff0000'],
     plotOptions: {
         column: {
             pointPadding: 0.2,
@@ -55,15 +59,15 @@ Highcharts.chart('chartTransaksi', {
     },
     series: [{
         name: 'Total Pemesanan',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+        data: total_pesanan
 
     }, {
         name: 'Selesai',
-        data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
+        data: selesai_pesanan
 
     }, {
         name: 'Batal',
-        data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
+        data: batal_pesanan
 
     }]
 });

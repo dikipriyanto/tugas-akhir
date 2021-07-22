@@ -57,6 +57,10 @@
                                                             <label class="custom-control-label" for="{{ $item->nama_merek }}">{{ $item->nama_merek }}</label>
                                                         </div>
                                                         @endforeach
+                                                        {{-- <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" name="merek[]" class="custom-control-input" value="toldem" id="toldem">
+                                                            <label class="custom-control-label" for="toldem">Lainnya</label>
+                                                        </div> --}}
                                                     </div>
                                                 </div>
                                             </div>

@@ -12,7 +12,9 @@
                 <td>:</td>
                 <td>{{ $kategori_services->nama_kategori}}</td>
             </tr>
-            </tr>
+            <div>
+                <img src="{{ asset('storage/'.$kategori_services->foto) }}" alt="" width="300px">
+            </div>
         </table>
         <a href="{{route('kategoriservice.index')}}" class="btn btn-primary float-right">Kembali</a>
     </div>

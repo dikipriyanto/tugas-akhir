@@ -300,16 +300,45 @@ class BengkelController extends Controller
 
     public function daftartransaksi(Request $request)
     {
+        $currentYear = date('Y');
         $id = $request->session()->get('id_bengkel');
-        $riwayatpemesan = riwayatpesanan::where("id_bengkel_service","LIKE","%{$id}%")->get();
 
-        $transaksi = [];
-        foreach ($riwayatpemesan as $item) {
-            $transaksi [] = $item;
-        }
-        // dd($transaksi);
+        $riwayatpemesan_total = riwayatpesanan::select(
+            \DB::raw('count(*) as total'),
+            \DB::raw('MONTH(tanggal_pemesanan) as month')
+        )->whereYear('tanggaL_pemesanan', $currentYear)->groupby('month')
+        ->get();
 
-        return view ('bengkel.pages.daftartransaksi');
+        $riwayatpemesan_selesai = riwayatpesanan::select(
+            \DB::raw('count(*) as total'),
+            \DB::raw('MONTH(tanggal_pemesanan) as month')
+        )->whereYear('tanggaL_pemesanan', $currentYear)->where('status_pesanan', 'selesai')->groupby('month')
+        ->get();
+
+        $riwayatpemesan_batal = riwayatpesanan::select(
+            \DB::raw('count(*) as total'),
+            \DB::raw('MONTH(tanggal_pemesanan) as month')
+        )->whereYear('tanggaL_pemesanan', $currentYear)->where('status_pesanan', 'batal')->groupby('month')
+        ->get();
+
+        $month_total = [0,0,0,0,0,0,0,0,0,0,0,0];
+        $month_selesai = [0,0,0,0,0,0,0,0,0,0,0,0];
+        $month_batal = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+        foreach($riwayatpemesan_total as $total){
+            $month_total[$total->month - 1] = $total->total;
+        };
+
+        foreach($riwayatpemesan_selesai as $selesai){
+            $month_selesai[$selesai->month - 1] = $selesai->total;
+        };
+
+        foreach($riwayatpemesan_batal as $batal){
+            $month_batal[$batal->month - 1] = $batal->total;
+        };
+
+
+        return view ('bengkel.pages.daftartransaksi', compact('month_batal', 'month_selesai', 'month_total'));
     }
 
     

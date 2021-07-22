@@ -4,6 +4,7 @@
 
     <head>
         @include('bengkel.layouts.head')
+        @cloudinaryJS
     </head>
 
     <body data-sidebar="dark">

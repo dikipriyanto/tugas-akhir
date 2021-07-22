@@ -32,6 +32,8 @@ Route::delete('/admin/penggunabengkel/hapus/{id}', 'admin\PenggunabengkelControl
 /* Admin / kelola pelanggan */
 Route::get('/admin/pelangganservice', 'admin\PelangganserviceController@index')->name('pelangganservice');
 Route::delete('/admin/pelangganservice/hapus/{id}', 'admin\pelangganserviceController@destroy')->name('pelangganservicehapus');
+/* Admin / kelola data transaksi */
+Route::get('/admin/datatransaksi', 'admin\AdminController@datatransaksi')->name('datatransaksi');
 
 /* pelanggan */
 Route::get('/', 'pelanggan\PelangganController@index')->name('pelanggan.index');

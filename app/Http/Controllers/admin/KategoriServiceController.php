@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\kategori_service; 
 use Illuminate\Pagination\Paginator;
+use Storage;
+use Carbon\Carbon;
+use Cloudinary;
 
 class KategoriServiceController extends Controller
 {
@@ -86,9 +89,26 @@ class KategoriServiceController extends Controller
     public function update(Request $request, $kategori_service)
     {
         $kategori_services = kategori_service::find($kategori_service);
+        if($request->foto){
+            $fileName = Carbon::now()->format('Y-m-d H:i:s').'-'.$request->nama_kategori;
+            
+            
+            if($kategori_services->public_id !== null){
+                Cloudinary::destroy($kategori_services->public_id);
+            }
+            
+            $uploadedFile = $request->file('foto')->storeOnCloudinaryAs('KategoriService',$fileName);
+            
+            $foto = $uploadedFile->getSecurePath();
+            $public_id = $uploadedFile->getPublicId();
+        }
+
         $kategori_services->update([
             'nama_kategori' => $request->nama_kategori,
+            'foto' => $request->foto ? $foto : $kategori_services->foto,
+            'public_id' => $request->foto ? $public_id : $kategori_services->public_id,
         ]);
+        
 
         return redirect()->route('kategoriservice.index')->with('success', 'Data telah berhasil diubah!!');
     }
