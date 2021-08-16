@@ -12,25 +12,22 @@
                     <thead>
                     <tr>
                         <th>No</th>
+                        <th>Kode Pemesanan</th>
                         <th>ID Bengkel</th>
                         <th>ID Pelanggan</th>
-                        <th>Kode Pemesanan</th>
-                        <th>Nama Pemesan</th>
                         <th>Tanggal Service</th>
                         <th>Tanggal Pesan</th>
                         <th>Status Pesanan</th>
-                        <th>Total Biaya</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                        @foreach ($datatransaksi as $e=>$item)
+                        @foreach ($keloladatapemesanan as $e=>$item)
                         <tr>
                             <td>{{$e+1}}</td>
+                            <td>{{$item->kode_pemesanan}}</td>
                             <td>{{$item->id_bengkel_service}}</td>
                             <td>{{$item->id_pelanggan}}</td>
-                            <td>{{$item->kode_pemesanan}}</td>
-                            <td>{{$item->nama_pemesan}}</td>
                             <td>{{ date('d M Y',strtotime($item->tanggal_pemesanan)) }}</td>
                             <td>{{ date('d M Y',strtotime($item->created_at)) }}</td>
                             <td>
@@ -48,7 +45,6 @@
                                         class="badge badge-pill badge-soft-danger font-size-14">{{$item->status_pesanan}}</span>
                                     @endif
                             </td>
-                            <td>{{$item->total_biaya}}</td>
                         </tr>
                         @endforeach
                     </tbody>

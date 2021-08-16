@@ -24,24 +24,24 @@
 
                 <li>
                     <a href="{{route('daftarpemesanan')}}" class="waves-effect">
-                        <i class="mdi mdi-message-text-clock"></i><span class="badge badge-pill badge-info float-right">3</span>
+                        <i class="mdi mdi-message-text-clock"></i><span class="badge badge-pill badge-info float-right"></span>
                         <span>Daftar Pemesanan</span>
                     </a>
                 </li>
 
-                <li>
+                {{-- <li>
                     <a href="{{route('riwayatpesanan')}}"class="waves-effect">
                         <i class="bx bx-task"></i>
                         <span>Riwayat Pemesanan</span>
                     </a>
-                </li>
+                </li> --}}
 
-                <li>
+                {{-- <li>
                     <a href="{{route('daftartransaksi')}}"class="waves-effect">
                         <i class="dripicons-align-justify"></i>
                         <span>Daftar Transaksi</span>
                     </a>
-                </li>
+                </li> --}}
                 
                 <li>
                     <a href="{{ route('logoutbengkel')}}" class="waves-effect">

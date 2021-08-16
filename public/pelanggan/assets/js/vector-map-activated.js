@@ -31,9 +31,9 @@
                 markers: [{
                 attribute: 'image',
                 scale: {
-                    'closed': 'assets/img/svg/dist-icon-4.png',
-                    'activeUntil2018': 'assets/img/svg/dist-icon-4.png',
-                    'activeUntil2022': 'assets/img/svg/dist-icon-4.png'
+                    'closed': 'pelanggan/assets/img/svg/dist-icon-4.png',
+                    'activeUntil2018': 'pelanggan/assets/img/svg/dist-icon-4.png',
+                    'activeUntil2022': 'pelanggan/assets/img/svg/dist-icon-4.png'
                 },
                 values: plants.reduce(function(p, c, i){ p[i] = c.status; return p }, {})
                 }]

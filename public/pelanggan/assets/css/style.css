@@ -638,15 +638,15 @@ ul {
     .banner.banner-3:after {
       display: none; }
   .banner .banner-content {
-    padding: 240px 0;
+    padding: 50px 0;
     margin-top: 210px; }
     .banner .banner-content h1 {
       color: #fff;
       font-size: 45px;
-      line-height: 90px;
+      line-height: 50px;
       font-weight: 700;
       margin-bottom: 16px;
-      margin-top: -250px; }
+      margin-top: -90px; }
     .banner .banner-content p {
       color: rgb(60, 118, 224);
       font-size: 20px;

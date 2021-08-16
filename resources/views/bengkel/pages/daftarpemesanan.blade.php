@@ -8,7 +8,7 @@
                     {{-- <div class="col-sm-4">
                         <div class="search-box mr-2 mb-2 d-inline-block">
                             <div class="position-relative">
-                                <input type="text" class="form-control" placeholder="Search...">
+                                <input id="custom-filter" type="text" class="form-control" placeholder="Cari...">
                                 <i class="bx bx-search-alt search-icon"></i>
                             </div>
                         </div>
@@ -27,10 +27,12 @@
                                 <th>Kode Pemesan</th>
                                 <th>Nama</th>
                                 <th>No HP/WA</th>
+                                <th>Tanggal Service</th>
                                 <th>Tanggal Pesanan</th>
-                                <th>Kecamatan</th>
+                                <th>Total Biaya</th>
+                                {{-- <th>Kecamatan</th>
                                 <th>Kelurahan</th>
-                                <th>Alamat</th>
+                                <th>Alamat</th> --}}
                                 <th>Status</th>
                                 <th>Keluhan</th>
                                 <th>Aksi</th>
@@ -43,9 +45,17 @@
                                 <td>{{$item->nama_pemesan}}</td>
                                 <td>{{$item->no_wa}}</td>
                                 <td>{{$item->tanggal_pemesanan}}</td>
-                                <td>{{$item->kecamatan}}</td>
+                                <td>{{ date('d M Y',strtotime($item->created_at)) }}</td>
+                                <td>
+                                    @if ($item->estimasi_biaya != null)
+                                    {{$item->estimasi_biaya->total_biaya}}
+                                    @else
+                                    0
+                                    @endif
+                                </td>
+                                {{-- <td>{{$item->kecamatan}}</td>
                                 <td>{{$item->kelurahan}}</td>
-                                <td>{{$item->alamat}}</td>
+                                <td>{{$item->alamat}}</td> --}}
                                 <td>
                                     @if ($item->status_pesanan == 'proses')
                                     <span
@@ -71,9 +81,9 @@
                                     <a href="{{route('editpesanan', $item->id)}}" class="mr-3 text-primary"
                                         data-toggle="tooltip" data-placement="top" title=""
                                         data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                    <a href="#" onclick="deleteRow({{$item->id}})" class="text-danger"
+                                    {{-- <a href="#" onclick="deleteRow({{$item->id}})" class="text-danger"
                                         data-toggle="tooltip" data-placement="top" title=""
-                                        data-original-title="Delete"><i class="mdi mdi-close font-size-18"></i></a>
+                                        data-original-title="Delete"><i class="mdi mdi-close font-size-18"></i></a> --}}
                                     <form action="{{ route('hapuspesanan', $item->id) }}" method="post"
                                         id="form-hapus-{{$item->id}}">
                                         @csrf
@@ -128,6 +138,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 @section('script')
 <script>
@@ -168,9 +179,30 @@
         
         // <p class="mb-2">Merek : ${data[key].merek_pesanan[0].nama_merek}</p>
         // <p class="mb-2">Jenis : ${data[key].jenis_pesanan[0].nama_jenis}</p>
-        html += `<p class="mb-2"><b>Informasi Tambahan</b> : ${data[key].informasi_tambahan}</p>`
+        html += `<p class="mb-2"><b>Informasi Tambahan</b> : ${data[key].informasi_tambahan == null ? "Tidak ada" : data[key].informasi_tambahan}</p>`
+        html += `<p class="mb-2"><b>Alamat Lengkap</b> : ${data[key].alamat}</p>`
+        html += `<p class="mb-2"><b>Kelurahan</b> : ${data[key].kelurahan}</p>`
+        html += `<p class="mb-2"><b>Kecamatan</b> : ${data[key].kecamatan}</p>`
+        
 
         $('#body-modal').html(html)
     }
+
+    
+    $(document).ready(function(){
+        var table = $('#table-halaman-daftarpemesan').DataTable();
+   //DataTable custom search field
+         $('#custom-filter').keyup( function() {
+         table.search( this.value ).draw();
+    } );
+
+    // let table = $('#table-halaman-daftarpemesan').DataTable({sDom: 'lrtip'});
+    
+
+    
+
+});
+
 </script>
 @endsection
+<script src="{{asset('assets/libs/jquery/jquery.min.js')}}"></script>

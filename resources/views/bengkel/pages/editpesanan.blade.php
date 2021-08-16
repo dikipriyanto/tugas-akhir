@@ -1,7 +1,7 @@
 @extends('bengkel.layouts.app')
 @include('bengkel.layouts.head')
 @section('content')
-<body>
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -43,6 +43,7 @@
                 <form action="{{route('estimasiBiaya', $daftarpemesan->id)}}" method="post" >
                     @csrf
                 <input type="hidden" name="id"  value="{{ $daftarpemesan->id }}">
+                <input type="hidden" name="estimasi_biaya_id"  value="{{ $daftarpemesan->estimasi_biaya != null ? $daftarpemesan->estimasi_biaya->id : '' }}">
 
                 <h4 class="card-title">Estimasi Biaya</h4>
 
@@ -53,7 +54,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input value="0" name="biaya_service" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-service" 
+                            <input value="{{ $daftarpemesan->estimasi_biaya != null ? $daftarpemesan->estimasi_biaya->biaya_service : 200000 }}" name="biaya_service" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-service" 
                             onkeyup="return totalBiaya(parseInt(this.value), parseInt(document.querySelector('#biaya-sparepart').value), parseInt( document.querySelector('#biaya-kedatangan').value) )">
                         </div>
                     </div>
@@ -66,7 +67,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input value="0" name="biaya_sparepart" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-sparepart" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(this.value), parseInt(document.querySelector('#biaya-kedatangan').value) )">
+                            <input value="{{ $daftarpemesan->estimasi_biaya != null ? $daftarpemesan->estimasi_biaya->biaya_sparepart : 0 }}" name="biaya_sparepart" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-sparepart" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(this.value), parseInt(document.querySelector('#biaya-kedatangan').value) )">
                         </div>
                     </div>
                 </div>
@@ -78,7 +79,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input value="0" name="biaya_kedatangan" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-kedatangan" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(document.querySelector('#biaya-sparepart').value), parseInt(this.value) )">
+                            <input value="{{ $daftarpemesan->estimasi_biaya != null ? $daftarpemesan->estimasi_biaya->biaya_kedatangan : 50000 }}" name="biaya_kedatangan" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-kedatangan" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(document.querySelector('#biaya-sparepart').value), parseInt(this.value) )">
                         </div>
                     </div>
                 </div>
@@ -90,7 +91,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input value="0" name="total_biaya" type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="total-biaya">
+                            <input value="{{ $daftarpemesan->estimasi_biaya != null ? $daftarpemesan->estimasi_biaya->total_biaya : 0 }}" name="total_biaya" type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="total-biaya">
                         </div>
                     </div>
                 </div>
@@ -110,7 +111,7 @@
     </div> <!-- end col -->
 </div>
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -156,10 +157,10 @@
             </div>
         </div>
     </div> <!-- end col -->
-</div> <!-- end row -->
+</div> --}}
 <!-- end row -->
 
-</body>
+
 @endsection
 
 <script>

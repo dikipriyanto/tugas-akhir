@@ -9,6 +9,7 @@ use Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\admin; 
 use App\Models\riwayatPesanan;
+use App\Models\Pemesanan;
 
 
 
@@ -144,9 +145,10 @@ class AdminController extends Controller
 
     public function datatransaksi (Request $request)
     {
-        $datatransaksi = riwayatpesanan::all();
+        $keloladatapemesanan = pemesanan::all();
+        // dd($datatransaksi);
 
-        return view ('admin.pages.datatransaksi', compact('datatransaksi'));
+        return view ('admin.pages.datapemesanan', compact('keloladatapemesanan'));
     }
 }
     

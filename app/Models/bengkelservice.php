@@ -20,6 +20,8 @@ class bengkelservice extends Model
         'email',
         'password',
         'token',
+        'logo',
+        'public_id',
         'deskripsi',
     ];
 

@@ -60,9 +60,18 @@
                                     </div>
                                 @endif
                                 
-                                @if(session('gagallogin'))
+                                @if(session('emailsalah'))
                                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                        {{ session('gagallogin')}}
+                                        {{ session('emailsalah')}}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                @endif
+
+                                @if(session('passwordsalah'))
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        {{ session('passwordsalah')}}
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -75,7 +84,7 @@
                                         @csrf
                                         <div class="form-group">
                                             <label for="">Email</label>
-                                            <input type="text" class="form-control" name="email" placeholder="Masukan email">
+                                            <input type="text" class="form-control" name="email" value="{{ old('email')}}" placeholder="Masukan email">
                                             @error('email')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror
@@ -83,7 +92,7 @@
                 
                                         <div class="form-group">
                                             <label for="">Password</label>
-                                            <input type="password" class="form-control" name="password" placeholder="Masukan password">
+                                            <input type="password" class="form-control" name="password" value="{{ old('password')}}" placeholder="Masukan password">
                                             @error('password')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror

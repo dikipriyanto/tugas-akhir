@@ -11,7 +11,7 @@
                 @foreach ($bengkelservice as $item)
                 <div class="card card-body mt-3">
                     <div class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
-                        <div class="col-md-2 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://w7.pngwing.com/pngs/803/214/png-transparent-car-maintenance-automobile-repair-shop-motor-vehicle-service-mechanic-repair-repair-logo-car.png"></div>
+                        <div class="col-md-2 mt-1"><img class="img-fluid img-responsive rounded product-image" src="{{$item->logo != null ? $item->logo : 'https://w7.pngwing.com/pngs/803/214/png-transparent-car-maintenance-automobile-repair-shop-motor-vehicle-service-mechanic-repair-repair-logo-car.png'}}"></div>
                         <div class="media-body">
                             <h5><strong>{{$item->nama_jasa_service}}</strong></h5>
                             <div class="mt-1 mb-1 spec-1"><span><strong>Nama</strong></span> : {{$item->nama_lengkap}}</div>

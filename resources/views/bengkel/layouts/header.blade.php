@@ -10,16 +10,16 @@
                     <span class="logo-lg">
                         <img src="assets/images/logo-dark.png" alt="" height="17">
                     </span>
-                </a>
+                </a> --}}
 
-                <a href="index.html" class="logo logo-light">
+                <a href="#" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-light.svg" alt="" height="22">
+                        <img src="{{asset('pelanggan/assets/img/LOGOANYAR.png')}}" alt="" height="22">
                     </span>
                     <span class="navbar-brand">
-                        <img src="assets/images/logo-light.png" alt="" height="19">
+                        <img src="{{asset('pelanggan/assets/img/LOGOANYAR.png')}}" alt="35" height="55">
                     </span>
-                </a> --}}
+                </a>
             </div>
 
             <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
@@ -51,26 +51,28 @@
                 </div>
             </div>
 
-            <div class="dropdown d-inline-block">
+            <div class="dropdown d-inline-block notification-dropdown" style="margin-right: 15px">
                 <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="bx bx-bell bx-tada"></i>
-                    <span class="badge badge-danger badge-pill">3</span>
+                    {{-- <span class="badge badge-danger badge-circle" id="count-notification" data-count="0">0</span> --}}
+                    <span class="badge badge-danger badge-circle" id="count-notification" data-count="{{ count($notif) }}">{{ count($notif) }}</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
                     aria-labelledby="page-header-notifications-dropdown">
                     <div class="p-3">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6 class="m-0"> Notifications </h6>
+                                <h6 class="m-0"> Notifikasi </h6>
                             </div>
-                            <div class="col-auto">
+                            {{-- <div class="col-auto">
                                 <a href="#!" class="small"> View All</a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
-                    <div data-simplebar style="max-height: 230px;">
-                        <a href="" class="text-reset notification-item">
+                    <div style="max-height: 230px;" id="container-notification">
+                        @foreach ($notif as $n)
+                        <a href="{{ route('daftarpemesanan') }}" class="text-reset notification-item">
                             <div class="media">
                                 <div class="avatar-xs mr-3">
                                     <span class="avatar-title bg-primary rounded-circle font-size-16">
@@ -78,34 +80,20 @@
                                     </span>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="mt-0 mb-1">Your order is placed</h6>
+                                    <h6 class="mt-0 mb-1">{{ $n->nama_pemesan }}</h6>
                                     <div class="font-size-12 text-muted">
-                                        <p class="mb-1">If several languages coalesce the grammar</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago</p>
+                                        <p class="mb-1">Pesanan masuk</p>
                                     </div>
                                 </div>
                             </div>
-                        </a>
-                        <a href="" class="text-reset notification-item">
-                            <div class="media">
-                                <img src="assets/images/users/avatar-3.jpg"
-                                    class="mr-3 rounded-circle avatar-xs" alt="user-pic">
-                                <div class="media-body">
-                                    <h6 class="mt-0 mb-1">James Lemire</h6>
-                                    <div class="font-size-12 text-muted">
-                                        <p class="mb-1">It will seem like simplified English.</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 1 hours ago</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-
+                        </a>                            
+                        @endforeach
                     </div>
-                    <div class="p-2 border-top">
+                    {{-- <div class="p-2 border-top">
                         <a class="btn btn-sm btn-link font-size-14 btn-block text-center" href="javascript:void(0)">
                             <i class="mdi mdi-arrow-right-circle mr-1"></i> View More..
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -118,15 +106,16 @@
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     @endif
                 </button>
-                {{-- <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
-                    <a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle mr-1"></i> Profile</a>
-                    <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle mr-1"></i> My Wallet</a>
+                    <a class="dropdown-item" href="{{route('editbengkelprofil')}}"><i class="bx bx-user font-size-16 align-middle mr-1"></i>Edit Profile</a>
+                    <a class="dropdown-item" href="{{route('gantipassword')}}"><i class="bx bxs-key font-size-16 align-middle mr-1"></i>Ganti Password</a>
+                    {{-- <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle mr-1"></i> My Wallet</a>
                     <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> Settings</a>
                     <a class="dropdown-item" href="#"><i class="bx bx-lock-open font-size-16 align-middle mr-1"></i> Lock screen</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" href="#"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> Logout</a>
-                </div> --}}
+                    <a class="dropdown-item text-danger" href="#"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> Logout</a> --}}
+                </div>
             </div>
 
         </div>

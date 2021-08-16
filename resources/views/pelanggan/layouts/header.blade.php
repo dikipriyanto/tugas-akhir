@@ -15,7 +15,7 @@
                                                 Support
                                             </span>
                                         </a>
-                                    </li> --}}
+                                    </li>
                                     <li>
                                         <a href="mailto:someone@example.com">
                                             <span class="part-icon">
@@ -25,11 +25,10 @@
                                                 hanyaTesting@gmail.com 
                                             </span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
-
                         
                         <div class="col-xl-6 col-lg-6">
                             <div class="part-right">
@@ -65,9 +64,9 @@
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-6 d-xl-block d-lg-block d-flex align-items-center">
                                     <div class="logo">
-                                        {{-- <a href="index-2.html">
-                                            <img src="pelanggan/assets/img/logo.png" alt="">
-                                        </a> --}}
+                                        <a href="index-2.html">
+                                            <img src="pelanggan/assets/img/LOGOANYAR1.png" alt="">
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="col-6 d-xl-none d-lg-none d-block">
@@ -98,13 +97,13 @@
                                             </li>    
                                             @else{{-- @endif --}}
                                             
-                                            {{-- <li class="nav-item">
-                                                <a class="nav-link" href="#">Tentang Bengkel Service</a>
-                                            </li> --}}
-
-                                            <li class="nav-item buy-nows">
-                                                <a class="nav-link buy-now" href="{{ route('loginbengkel1')}}">Login Bengkel</a>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{route('tentang')}}">Tentang Bengkel Service</a>
                                             </li>
+
+                                            {{-- <li class="nav-item buy-nows">
+                                                <a class="nav-link buy-now" href="{{ route('loginbengkel1')}}">Login Bengkel</a>
+                                            </li> --}}
 
                                             @endif
                                             @if (session('token_pelanggan'))

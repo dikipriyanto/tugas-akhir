@@ -37,7 +37,7 @@
                 <li>
                     <a href="{{route('datatransaksi')}}" class="waves-effect">
                         <i class="bx bx-transfer"></i><span class="badge badge-pill badge-info float-right"></span>
-                        <span>Kelola Data Transaksi</span>
+                        <span>Kelola Data Pemesanan</span>
                     </a>
                 </li>
 

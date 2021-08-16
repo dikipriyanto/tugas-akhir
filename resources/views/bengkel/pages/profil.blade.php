@@ -43,6 +43,11 @@
                                     <td>:</td>
                                     <td>{{$bengkelservice->deskripsi}}</td>
                                 </tr>
+                                <tr>
+                                    <td>Logo</td>
+                                    <td>:</td>
+                                    <td><img src="{{ $bengkelservice->logo}}" alt="" width="111" style="margin-top: 5px"></td>
+                                </tr>
                            </tbody>
                        </table>
                     </div>

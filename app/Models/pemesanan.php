@@ -47,7 +47,7 @@ class Pemesanan extends Model
 
     public function estimasi_biaya()
     {
-        return $this->hasMany(estimasi_biaya::class,'id_pesanan');
+        return $this->hasOne(estimasi_biaya::class,'id_pesanan');
     }
 
     public function bengkelservice()

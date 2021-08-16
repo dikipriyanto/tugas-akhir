@@ -11,16 +11,16 @@
         <script src="{{asset('pelanggan/assets/js/waypoints.min.js')}}"></script>
         <!-- counter up js -->
         <script src="{{asset('pelanggan/assets/js/jquery.counterup.min.js')}}"></script>
-        <!-- vector map js -->
+        {{-- <!-- vector map js -->
         <script src="{{asset('pelanggan/assets/js/jquery-jvectormap-2.0.3.min.js')}}"></script>
         <script src="{{asset('pelanggan/assets/js/jquery-jvectormap-world-mill.js')}}"></script>
         <script src="{{asset('pelanggan/assets/js/gdp-data.js')}}"></script>
-        <script src="{{asset('pelanggan/assets/js/vector-map-activated.js')}}"></script>
+        <script src="{{asset('pelanggan/assets/js/vector-map-activated.js')}}"></script> --}}
         <!-- wow js-->
         <script src="{{asset('pelanggan/assets/js/wow.min.js')}}"></script>
-        <!-- animation when scrolling -->
+        {{-- <!-- animation when scrolling -->
         <script src="{{asset('pelanggan/assets/js/scroll-animation-amazing-feature.js')}}"></script>
-        <script src="{{asset('pelanggan/assets/js/scroll-animation-industry-feature.js')}}"></script>
+        <script src="{{asset('pelanggan/assets/js/scroll-animation-industry-feature.js')}}"></script> --}}
         <!-- main -->
         <script src="{{asset('pelanggan/assets/js/main.js')}}"></script>
         <script src="{{asset('pelanggan/assets/js/rangeslider.js')}}"></script>
@@ -37,4 +37,6 @@
         <script src="{{asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
         <!-- sticky sidebar js -->
         <script src="{{asset('assets/js/theia-sticky-sidebar.min.js')}}"></script>
+        <script src="https://js.pusher.com/3.1/pusher.min.js"></script>
+
         

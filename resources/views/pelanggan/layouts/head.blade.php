@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="{{asset('pelanggan/assets/css/owl.carousel.min.css')}}">
     <!-- magnific popup -->
     <link rel="stylesheet" href="{{asset('pelanggan/assets/css/magnific-popup.css')}}">
-    <!-- vector map css -->
-    <link rel="stylesheet" href="{{asset('pelanggan/assets/css/jquery-jvectormap-2.0.3.css')}}">
+    {{-- <!-- vector map css -->
+    <link rel="stylesheet" href="{{asset('pelanggan/assets/css/jquery-jvectormap-2.0.3.css')}}"> --}}
     <!-- stylesheet -->
     <link rel="stylesheet" href="{{asset('pelanggan/assets/css/style.css')}}">
     <!-- responsive -->

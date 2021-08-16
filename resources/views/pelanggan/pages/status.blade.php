@@ -40,9 +40,9 @@
                         @foreach ($status as $item)
                         <div class="card-body">
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-md-3 col-form-label">ID Bengkel Service</label>
+                                <label for="example-text-input" class="col-md-3 col-form-label">Nama Bengkel Service</label>
                                 <div class="col-md-7">
-                                    <label for="example-text-input" class="col-md-5 col-form-label">: {{$item->id_bengkel_service}}</label>
+                                    <label for="example-text-input" class="col-md-5 col-form-label">: {{$item->bengkelservice->nama_jasa_service}}</label>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="example-search-input" class="col-md-3 col-form-label">tanggal Pemesanan</label>
+                                <label for="example-search-input" class="col-md-3 col-form-label">Tanggal Pemesanan</label>
                                 <div class="col-md-7">
                                     <label for="example-search-input" class="col-md-5 col-form-label">: {{$item->tanggal_pemesanan}}</label>
                                 </div>
@@ -91,40 +91,39 @@
                                         <table class="table table-nowrap">
                                             <thead>
                                                 <tr>
-                                                    {{-- <th style="width: 70px;">No.</th> --}}
+                                                    
                                                     <th>Item</th>
                                                     <th class="text-right">Harga</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($item->estimasi_biaya as $t)
                                                 <tr>
-                                                    {{-- <td>01</td> --}}
+                                                    
                                                     <td>Biaya Service</td>
-                                                    <td class="text-right">RP {{$t->biaya_service}}.000</td>
+                                                    <td class="text-right">RP {{$item->estimasi_biaya != null ? $item->estimasi_biaya->biaya_service : 0  }}</td>
                                                 </tr>
                                                 
                                                 <tr>
-                                                    {{-- <td>02</td> --}}
+                                                    
                                                     <td>Biaya Sparepart</td>
-                                                    <td class="text-right">RP {{$t->biaya_sparepart}}.000</td>
+                                                    <td class="text-right">RP {{$item->estimasi_biaya != null ? $item->estimasi_biaya->biaya_sparepart : 0}}</td>
                                                 </tr>
                 
                                                 <tr>
-                                                    {{-- <td>03</td> --}}
+                                                    
                                                     <td>Biaya Kedatangan</td>
-                                                    <td class="text-right">RP {{$t->biaya_kedatangan}}.000</td>
+                                                    <td class="text-right">RP {{$item->estimasi_biaya != null ? $item->estimasi_biaya->biaya_kedatangan : 0}}</td>
                                                 </tr>
                                     
                                                 <tr>
                                                     <td colspan="1" class="border-0 text-right">
                                                         <strong>Total</strong></td>
-                                                    <td class="border-0 text-right"><h4 class="m-0">RP {{$t->total_biaya}}.000</h4></td>
+                                                    <td class="border-0 text-right"><h4 class="m-0">RP {{$item->estimasi_biaya != null ? $item->estimasi_biaya->total_biaya : 0}}</h4></td>
                                                 </tr>
-                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
+
                             
                         </div>
                         @endforeach

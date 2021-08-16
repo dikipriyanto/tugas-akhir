@@ -53,7 +53,7 @@
                                         @csrf
                                         <div class="form-group">
                                             <label>Nama Lengkap</label>
-                                            <input type="text" class="form-control" name="nama_lengkap" placeholder="masukan nama lengkap">
+                                            <input type="text" class="form-control" name="nama_lengkap" value="{{ old('nama_lengkap')}}" placeholder="masukan nama lengkap">
                                             @error('nama_lengkap')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror
@@ -61,7 +61,7 @@
 
                                         <div class="form-group">
                                             <label>Nama Jasa Service</label>
-                                            <input type="text" class="form-control" name="nama_jasa_service" placeholder="masukan nama jasa">
+                                            <input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase()" name="nama_jasa_service" value="{{ old('nama_jasa_service')}}" placeholder="masukan nama jasa">
                                             @error('nama_jasa_service')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror
@@ -69,7 +69,7 @@
             
                                         <div class="form-group">
                                             <label>Alamat Lengkap</label>
-                                            <input type="text" class="form-control" name="alamat_lengkap" placeholder="masukan alamat">
+                                            <input type="text" class="form-control"  name="alamat_lengkap" value="{{ old('alamat_lengkap')}}" placeholder="masukan alamat">
                                             @error('alamat_lengkap')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror
@@ -77,7 +77,7 @@
 
                                         <div class="form-group">
                                             <label>No Telepon</label>
-                                            <input type="number" class="form-control" name="no_telepon" placeholder="masukan no telepon">
+                                            <input type="number" class="form-control" name="no_telepon" value="{{ old('no_telepon')}}" placeholder="masukan no telepon">
                                             @error('no_telepon')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror
@@ -88,7 +88,8 @@
                                             <select name="nama_kategori" class="form-control">
                                                 <option value="">- Pilih -</option>
                                                 @foreach ($kategori_services as $item)
-                                                    <option value="{{ $item->nama_kategori}}">{{ $item->nama_kategori}}</option> 
+                                                    {{-- <option value="{{ $item->nama_kategori}}">{{ $item->nama_kategori}}</option>  --}}
+                                                    <option value="{{ $item->nama_kategori}}" @if(old('nama_kategori') ==$item->nama_kategori) selected @endif >{{ $item->nama_kategori}}</option> 
                                                 @endforeach
                                             </select>
                                             @error('nama_kategori')
@@ -98,7 +99,7 @@
                 
                                         <div class="form-group">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" name="email" placeholder="Masukan email">
+                                            <input type="email" class="form-control" name="email" value="{{ old('email')}}" placeholder="Masukan email">
                                             @error('email')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror        
@@ -106,7 +107,7 @@
                 
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" class="form-control" name="password" placeholder="Masukan password">
+                                            <input type="password" class="form-control" name="password" value="{{ old('password')}}" placeholder="Masukan password">
                                             @error('password')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror        
@@ -114,23 +115,18 @@
 
                                         <div class="form-group">
                                             <label>Ulangi Password</label>
-                                            <input type="password" class="form-control" name="konfirmasi_password" placeholder="Ulangi password">
+                                            <input type="password" class="form-control" name="konfirmasi_password" value="{{ old('konfirmasi_password')}}" placeholder="Ulangi password">
                                             @error('konfirmasi_password')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror        
                                         </div>
 
-                                        {{-- <div class="form-group">
-                                            <label>logo</label>
-                                            <input type="logo" class="form-control" name="logo" placeholder="logo">
-                                            @error('logo')
-                                                <span class="text-danger">{{$message}}</span>
-                                            @enderror        
-                                        </div> --}}
-
                                         <div class="form-group">
-                                            <label>deskripsi</label>
-                                            <input type="deskripsi" class="form-control" name="deskripsi" placeholder="deskripsi">
+                                            <label>Deskripsi</label>
+                                            {{-- <input type="deskripsi" class="form-control" name="deskripsi" placeholder="deskripsi"> --}}
+                                            <div>
+                                                <textarea  name="deskripsi" class="form-control" rows="3">{{ old('deskripsi')}}</textarea>
+                                            </div>
                                             @error('deskripsi')
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror        
@@ -141,7 +137,7 @@
                                         </div>
 
                                         <div class="mt-4 text-center">
-                                            <p>Sudah memiliki akun ? <a href="auth-login.html" class="font-weight-medium text-primary"> Login</a> </p>
+                                            <p>Sudah memiliki akun ? <a href="{{route('loginbengkel1')}}" class="font-weight-medium text-primary"> Login</a> </p>
                                         </div>
                                     </form>
                                 </div>

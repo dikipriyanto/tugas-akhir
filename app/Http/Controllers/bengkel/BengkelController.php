@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\bengkel;
 
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -11,7 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Validator;
 use App\Models\masalah;
 use App\Models\masalah_pesanan;
-use App\Models\Pemesanan;
+use App\Models\pemesanan;
 use App\Models\jenis_pesanan;
 use App\Models\merek_pesanan;
 use App\Models\estimasi_biaya;
@@ -22,17 +23,62 @@ class BengkelController extends Controller
 {
     public function index(Request $request)
     {   
-        if(!empty(bengkelservice::where('email',$request->session()->get('email'))->first())){
-            $bengkelservice = bengkelservice::where('email',$request->session()->get('email'))->first();
+        $id = $request->session()->get('id_bengkel');
+        if($id !== null){
 
-            view('bengkel.layout.app')->with('namabengkel', $bengkelservice->nama_lengkap);
+            if(!empty(bengkelservice::where('email',$request->session()->get('email'))->first())){
+                $bengkelservice = bengkelservice::where('email',$request->session()->get('email'))->first();
 
-            return view ('bengkel.pages.dashboard')->with([
-                'bengkelservice' => $bengkelservice
-            ]);
-        } 
+                view('bengkel.layout.app')->with('namabengkel', $bengkelservice->nama_lengkap);
 
-        return view ('bengkel.pages.dashboard');
+                return view ('bengkel.pages.dashboard')->with([
+                    'bengkelservice' => $bengkelservice
+                ]);
+            } 
+
+            $currentYear = date('Y');
+            // $id = $request->session()->get('id_bengkel');
+
+            $riwayatpemesan_total = pemesanan::select(
+                \DB::raw('count(*) as total'),
+                \DB::raw('MONTH(created_at) as month')
+            )->whereYear('created_at', $currentYear)->groupby('month')->where("id_bengkel_service","LIKE","%{$id}%")
+            ->get();
+
+            $riwayatpemesan_selesai = pemesanan::select(
+                \DB::raw('count(*) as total'),
+                \DB::raw('MONTH(created_at) as month')
+            )->whereYear('created_at', $currentYear)->where('status_pesanan', 'selesai')->groupby('month')->where("id_bengkel_service","LIKE","%{$id}%")
+            ->get();
+
+            $riwayatpemesan_batal = pemesanan::select(
+                \DB::raw('count(*) as total'),
+                \DB::raw('MONTH(created_at) as month')
+            )->whereYear('created_at', $currentYear)->where('status_pesanan', 'batal')->groupby('month')->where("id_bengkel_service","LIKE","%{$id}%")
+            ->get();
+
+            $month_total = [0,0,0,0,0,0,0,0,0,0,0,0];
+            $month_selesai = [0,0,0,0,0,0,0,0,0,0,0,0];
+            $month_batal = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+            foreach($riwayatpemesan_total as $total){
+                $month_total[$total->month - 1] = $total->total;
+            };
+
+            foreach($riwayatpemesan_selesai as $selesai){
+                $month_selesai[$selesai->month - 1] = $selesai->total;
+            };
+
+            foreach($riwayatpemesan_batal as $batal){
+                $month_batal[$batal->month - 1] = $batal->total;
+            };
+
+            return view ('bengkel.pages.dashboard', compact('month_batal', 'month_selesai', 'month_total'));
+
+        }else{
+            return redirect ('/login');
+        }
+
     }
 
     public function register()
@@ -50,10 +96,10 @@ class BengkelController extends Controller
     public function postregister(Request $request)
     {
         $rules = [
-            'nama_lengkap'=> 'required',
+            'nama_lengkap'=> 'required|regex:/^[a-zA-Z ]+$/',
             'nama_jasa_service'=> 'required',
             'alamat_lengkap'=> 'required',
-            'no_telepon'=> 'required|unique:bengkelservice',
+            'no_telepon'=> 'required|unique:bengkelservice|numeric|digits_between:10,13',
             'nama_kategori'=> 'required',
             'email'=> 'required|email|unique:bengkelservice',
             'password'=> 'required|min:6',
@@ -67,14 +113,17 @@ class BengkelController extends Controller
             'email' => 'Format email salah',
             'min' => ':attribute :min karakter',
             'same' => 'Password tidak sama!',
-            'unique' => ':attribute sudah ada!'
+            'unique' => ':attribute sudah ada!',
+            'numeric' => ':attribute masukan dengan angka!',
+            'regex' => ':attribute tidak boleh dengan angka!',
+            'digits_between' => 'No.Hp/Telepone harus minimal 10 karakter dan maksimal 13 karakter',
         ];
 
         $validation = Validator::make($request->all(),$rules, $message);
 
         if($validation->fails()){
             
-            return redirect()->back()->withErrors($validation->errors());
+            return redirect()->back()->withErrors($validation->errors())->withInput($request->input());
         }
 
         bengkelservice::create(
@@ -104,6 +153,7 @@ class BengkelController extends Controller
         $message = [
             'required' => 'Form :attribute tidak boleh kosong!',
             'min' => ':attribute harus 6 karakter!',
+            'email' => 'password salah',
         ];
 
         $validation = Validator::make($request->all(),$rules, $message);
@@ -111,7 +161,7 @@ class BengkelController extends Controller
         if($validation->fails()){
             // dd($validation->errors());
             
-            return redirect()->back()->withErrors($validation->errors());
+            return redirect()->back()->withErrors($validation->errors())->withInput($request->input());
         }
 
         if(!empty(bengkelservice::where('email', $request->email)->first())){
@@ -129,11 +179,15 @@ class BengkelController extends Controller
                 );
 
                 return redirect ('/dashboard');
+                
+            }else{
+
+                return redirect ('/login')->with('passwordsalah', 'Email atau Password salah !')->withInput($request->input());
             }
             
         }else{
 
-            return redirect ('/login')->with('gagallogin', 'email atau password salah') ;
+            return redirect ('/login')->with('emailsalah', 'Email atau Password salah !')->withInput($request->input());
         }
         
         return view ('bengkel.auth.login');
@@ -167,23 +221,23 @@ class BengkelController extends Controller
     public function daftarPemesanan(Request $request)
     {   
         $id = $request->session()->get('id_bengkel');
-        $daftarpemesan = pemesanan::with('masalah_pesanan', 'jenis_pesanan', 'merek_pesanan')->where("id_bengkel_service","LIKE","%{$id}%")->get();
+        if($id !== null){
 
-        return view ('bengkel.pages.daftarpemesanan', compact('daftarpemesan'));
+            $id = $request->session()->get('id_bengkel');
+            $daftarpemesan = pemesanan::with('masalah_pesanan', 'jenis_pesanan', 'merek_pesanan','estimasi_biaya')->where("id_bengkel_service","LIKE","%{$id}%")->get();
+            // dd($id);
+            return view ('bengkel.pages.daftarpemesanan', compact('daftarpemesan'));
+        
+        }else{
+            return redirect ('/login');
+        }
     }
-
-    // public function jumlahPemesanan(Request $request)
-    // {   
-    //     $id = $request->session()->get('id_bengkel');
-    //     $jumlahpemesanan = pemesanan::where("id_bengkel_service","LIKE","%{$id}%")->get();
-
-    //     return view ('bengkel.layouts.sidebar', compact('jumlahpemesanan'));
-    // }
 
 
     public function editPesanan(Request $request, $daftarpemesan)
     {
-        $daftarpemesan = pemesanan::find($daftarpemesan);
+        $daftarpemesan = pemesanan::with('masalah_pesanan', 'jenis_pesanan', 'merek_pesanan','estimasi_biaya')->find($daftarpemesan);
+        // dd($daftarpemesan);
         
         return view ('bengkel.pages.editpesanan', compact('daftarpemesan'));   
     }
@@ -201,16 +255,27 @@ class BengkelController extends Controller
     public function estimasiBiaya(Request $request)
     {
         $daftarpemesan = pemesanan::where('id',$request->id);
-        $estimasi_biaya = estimasi_biaya::create([
-            'biaya_service' => $request->biaya_service,
-            'biaya_sparepart' => $request->biaya_sparepart,
-            'biaya_kedatangan' => $request->biaya_kedatangan,
-            'total_biaya' => $request->total_biaya,
-            'id_pesanan'=> $request->id,
-        ]);
-        // dd($daftarpemesan);
-        // return redirect ('/daftarpemesanan');
-        return Redirect::back(); 
+        if($request->estimasi_biaya_id == null){
+            $estimasi_biaya = estimasi_biaya::create([
+                'biaya_service' => $request->biaya_service,
+                'biaya_sparepart' => $request->biaya_sparepart,
+                'biaya_kedatangan' => $request->biaya_kedatangan,
+                'total_biaya' => $request->total_biaya,
+                'id_pesanan'=> $request->id,
+            ]);
+        }else{
+            $estimasi_biaya = estimasi_biaya::findOrFail($request->estimasi_biaya_id);
+            $estimasi_biaya->update([
+                'biaya_service' => $request->biaya_service,
+                'biaya_sparepart' => $request->biaya_sparepart,
+                'biaya_kedatangan' => $request->biaya_kedatangan,
+                'total_biaya' => $request->total_biaya,
+                'id_pesanan'=> $request->id,
+            ]);
+        }
+    
+        return redirect ('/daftarpemesanan');  
+        // return view ('bengkel.pages.editpesanan', compact('daftarpemesan'));  
     }
 
     public function editBiaya(Request $request, $editbiaya)
@@ -231,64 +296,8 @@ class BengkelController extends Controller
         ]);
 
         return redirect('/daftarpemesanan');
-        // return redirect()->route('editpesanan', ['$id']);
     }
 
-    public function hapusBiaya (Request $request)
-    {
-        $hapusbiaya = estimasi_biaya::where('id',$request->id);
-        $hapusbiaya->delete();
-        // dd($hapusbiaya);
-
-        // return redirect ('/daftarpemesanan');
-        return Redirect::back();
-    }
-
-    public function hapusPesanan(Request $request)
-    {
-        $total_biaya = estimasi_biaya::where("id_pesanan","LIKE","%{$request->id}%")->first();
-        if($total_biaya !== null){
-            $daftarpemesan = pemesanan::findOrFail($request->id);
-
-            $riwayatpesanan = riwayatpesanan::create([
-                'id_bengkel_service' => $daftarpemesan->id_bengkel_service,
-                'id_pelanggan' => $daftarpemesan->id_pelanggan,
-                'kode_pemesanan' => $daftarpemesan->kode_pemesanan,
-                'nama_pemesan' => $daftarpemesan->nama_pemesan,
-                'tanggal_pemesanan' => $daftarpemesan->tanggal_pemesanan,
-                'status_pesanan' => $daftarpemesan->status_pesanan,
-                'biaya_service' => $total_biaya->biaya_service,
-                'biaya_sparepart' => $total_biaya->biaya_sparepart,
-                'biaya_kedatangan' => $total_biaya->biaya_kedatangan,
-                'total_biaya' => $total_biaya->total_biaya,
-            ]);
-
-            $hapuspesanan = pemesanan::findOrFail($request->id);
-            $hapuspesanan->delete();
-            // dd($total_biaya);
-            
-            return redirect ('/daftarpemesanan');
-        }else{
-            $daftarpemesan = pemesanan::findOrFail($request->id);
-
-            $riwayatpesanan = riwayatpesanan::create([
-                'id_bengkel_service' => $daftarpemesan->id_bengkel_service,
-                'id_pelanggan' => $daftarpemesan->id_pelanggan,
-                'kode_pemesanan' => $daftarpemesan->kode_pemesanan,
-                'nama_pemesan' => $daftarpemesan->nama_pemesan,
-                'tanggal_pemesanan' => $daftarpemesan->tanggal_pemesanan,
-                'status_pesanan' => $daftarpemesan->status_pesanan,
-                // 'nota_biaya' => $total_biaya->total_biaya,
-            ]);
-
-            $hapuspesanan = pemesanan::findOrFail($request->id);
-            $hapuspesanan->delete();
-            // dd($total_biaya);
-            
-            return redirect ('/daftarpemesanan');
-        }
-        dd($total_biaya);
-    }
 
     public function riwayatpesanan(Request $request)
     {
@@ -296,49 +305,6 @@ class BengkelController extends Controller
         $riwayatpemesan = riwayatpesanan::where("id_bengkel_service","LIKE","%{$id}%")->get();
 
         return view ('bengkel.pages.riwayat', compact('riwayatpemesan'));
-    }
-
-    public function daftartransaksi(Request $request)
-    {
-        $currentYear = date('Y');
-        $id = $request->session()->get('id_bengkel');
-
-        $riwayatpemesan_total = riwayatpesanan::select(
-            \DB::raw('count(*) as total'),
-            \DB::raw('MONTH(tanggal_pemesanan) as month')
-        )->whereYear('tanggaL_pemesanan', $currentYear)->groupby('month')
-        ->get();
-
-        $riwayatpemesan_selesai = riwayatpesanan::select(
-            \DB::raw('count(*) as total'),
-            \DB::raw('MONTH(tanggal_pemesanan) as month')
-        )->whereYear('tanggaL_pemesanan', $currentYear)->where('status_pesanan', 'selesai')->groupby('month')
-        ->get();
-
-        $riwayatpemesan_batal = riwayatpesanan::select(
-            \DB::raw('count(*) as total'),
-            \DB::raw('MONTH(tanggal_pemesanan) as month')
-        )->whereYear('tanggaL_pemesanan', $currentYear)->where('status_pesanan', 'batal')->groupby('month')
-        ->get();
-
-        $month_total = [0,0,0,0,0,0,0,0,0,0,0,0];
-        $month_selesai = [0,0,0,0,0,0,0,0,0,0,0,0];
-        $month_batal = [0,0,0,0,0,0,0,0,0,0,0,0];
-
-        foreach($riwayatpemesan_total as $total){
-            $month_total[$total->month - 1] = $total->total;
-        };
-
-        foreach($riwayatpemesan_selesai as $selesai){
-            $month_selesai[$selesai->month - 1] = $selesai->total;
-        };
-
-        foreach($riwayatpemesan_batal as $batal){
-            $month_batal[$batal->month - 1] = $batal->total;
-        };
-
-
-        return view ('bengkel.pages.daftartransaksi', compact('month_batal', 'month_selesai', 'month_total'));
     }
 
     

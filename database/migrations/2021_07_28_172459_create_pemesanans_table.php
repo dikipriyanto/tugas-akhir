@@ -15,9 +15,9 @@ class CreatePemesanansTable extends Migration
     {
         Schema::create('pemesanans', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_pemesanan')->unique();
+            $table->bigInteger('kode_pemesanan')->unique();
             $table->string('nama_pemesan');
-            $table->string('no_wa');
+            $table->bigInteger('no_wa');
             $table->string('tanggal_pemesanan');
             $table->string('kecamatan');
             $table->string('kelurahan');
@@ -25,7 +25,7 @@ class CreatePemesanansTable extends Migration
             $table->bigInteger('id_bengkel_service')->unsigned();
             $table->bigInteger('id_pelanggan')->unsigned();
             $table->enum('status_pesanan',['request','proses','selesai','batal'])->default('request');
-            $table->string('informasi_tambahan');
+            $table->string('informasi_tambahan')->nullable();
             $table->timestamps();
             $table->foreign('id_bengkel_service')->references('id')->on('bengkelservice')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_pelanggan')->references('id')->on('pelanggan')->onDelete('cascade')->onUpdate('cascade');

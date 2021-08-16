@@ -36,6 +36,7 @@
                                     <input type="hidden" name="_method" value="DELETE">
                                 </form> 
                                 <button onclick="deleteRow({{$bengkelservice1->id}})" class="btn btn-danger">Hapus</button>
+                                <button onclick="#" class="btn btn-danger">Edit</button>
                             </td>
                         </tr>
                             @endforeach

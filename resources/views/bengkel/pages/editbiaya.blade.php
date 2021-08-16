@@ -20,7 +20,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input name="biaya_service" type="number" value="{{ $editbiaya->biaya_service }}" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-service" 
+                            <input name="biaya_service"  type="number" value="{{ $editbiaya->biaya_service }}" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-service" 
                             onkeyup="return totalBiaya(parseInt(this.value), parseInt(document.querySelector('#biaya-sparepart').value), parseInt( document.querySelector('#biaya-kedatangan').value) )">
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text">RP</span>
                             </div>
-                            <input name="biaya_sparepart" type="number" value="{{ $editbiaya->biaya_sparepart }}" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-sparepart" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(this.value), parseInt(document.querySelector('#biaya-kedatangan').value) )">
+                            <input name="biaya_sparepart" type="number"  value="{{ $editbiaya->biaya_sparepart }}" class="form-control" aria-label="Amount (to the nearest dollar)" id="biaya-sparepart" onkeyup="return totalBiaya(parseInt(document.querySelector('#biaya-service').value), parseInt(this.value), parseInt(document.querySelector('#biaya-kedatangan').value) )">
                         </div>
                     </div>
                 </div>
