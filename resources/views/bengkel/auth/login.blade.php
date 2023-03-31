@@ -45,11 +45,29 @@
                                     <a href="index.html">
                                         <div class="avatar-md profile-user-wid mb-4">
                                             <span class="avatar-title rounded-circle bg-light">
-                                                <img src="assets/images/logo.svg" alt="" class="rounded-circle" height="34">
+                                                <img src="assets/images/logoutama.png" alt="" class="rounded-circle" height="67">
                                             </span>
                                         </div>
                                     </a>
                                 </div>
+
+                                @if (session('status'))
+                                    <div class="alert alert-success">
+                                        {{ session('status') }}
+                                    </div>
+                                    @endif
+                                    
+                                    @if (session('warning'))
+                                    <div class="alert alert-warning">
+                                        {{ session('warning') }}
+                                    </div>
+                                @endif
+
+                                @if(session('message'))
+                                    <div class="alert alert-success text-center mb-4" role="alert">
+                                        {{ session('message')}}
+                                    </div>
+                                @endif
 
                                  @if(session('success'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -107,11 +125,11 @@
                                             <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Masuk</button>
                                         </div>
             
-                                        {{-- <div class="mt-4 text-center">
-                                            <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>
-                                        </div> --}}
-
                                         <div class="mt-4 text-center">
+                                            <a href="{{route('forgotpasswordbengkel')}}" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Lupa password?</a>
+                                        </div>
+
+                                        <div class="mt-2 text-center">
                                             <p>Daftar Penyedia Bengkel service ? <a href="{{route('register')}}" class="font-weight-medium text-primary"> Daftar </a> </p>
                                         </div>
                                     </form>

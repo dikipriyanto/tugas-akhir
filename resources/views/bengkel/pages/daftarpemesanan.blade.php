@@ -196,11 +196,6 @@
          table.search( this.value ).draw();
     } );
 
-    // let table = $('#table-halaman-daftarpemesan').DataTable({sDom: 'lrtip'});
-    
-
-    
-
 });
 
 </script>

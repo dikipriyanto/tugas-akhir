@@ -23,4 +23,14 @@ class PenggunabengkelController extends Controller
         return redirect ('admin/penggunabengkel/')->with('success', 'Data berhasil dihapus!');;
     }
 
+    public function updatestatus(Request $request){
+        $bengkelservice = bengkelservice::where('id',$request->id);
+
+        $bengkelservice->update([
+            'status' => $request->status,
+        ]);
+        // dd($bengkelservice);
+        return redirect ('admin/penggunabengkel/');
+    }
+
 }

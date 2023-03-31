@@ -8,6 +8,7 @@ use App\Models\estimasi_biaya;
 use App\Models\bengkelservice;
 use App\Models\status_service;
 use App\Models\pelanggan;
+use App\Models\rating;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -63,6 +64,11 @@ class Pemesanan extends Model
     public function status_service()
     {
         return $this->hasMany(status_service::class,'id_pesanan');
+    }
+
+    public function Rating()
+    {
+        return $this->hasMany(Rating::class,'id_pemesanan');
     }
 
 }

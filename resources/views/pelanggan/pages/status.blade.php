@@ -34,7 +34,105 @@
             <!-- breadcrumb end -->
      <div class="blog-page blog-details">
         <div class="container">
+            @foreach ($status as $item)
             <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title mb-5">Kode Pemesanan : {{$item->kode_pemesanan}} </h4>
+                            <div class="">
+                                <ul class="verti-timeline list-unstyled">
+                                    <li class="event-list">
+                                        <div class="event-timeline-dot">
+                                            <i class="bx bx-right-arrow-circle"></i>
+                                        </div>
+                                        <div class="media">
+                                            <div class="mr-3">
+                                                <i class="bx bx-copy-alt h2 text-primary"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <div>
+                                                    <h5>Pesanan</h5>
+                                                    <p class="text-muted">Nama Bengkel      : {{$item->bengkelservice->nama_jasa_service}}</p>
+                                                    <p class="text-muted">Nama Pemesan      : {{$item->nama_pemesan}}</p>
+                                                    <p class="text-muted">Tanggal Pemesanan : {{$item->tanggal_pemesanan}}</p>
+                                                    <p class="text-muted">Status Pemesanan : <td>@if ($item->status_pesanan == 'proses')
+                                                        <span
+                                                            class="badge badge-pill badge-soft-info font-size-14">{{$item->status_pesanan}}</span>
+                                                        @elseif($item->status_pesanan == 'selesai')
+                                                        <span
+                                                            class="badge badge-pill badge-soft-success font-size-14">{{$item->status_pesanan}}</span>
+                                                        @elseif($item->status_pesanan == 'request')
+                                                        <span
+                                                            class="badge badge-pill badge-soft-warning font-size-14">{{$item->status_pesanan}}</span>
+                                                        @elseif($item->status_pesanan == 'batal')
+                                                        <span
+                                                            class="badge badge-pill badge-soft-danger font-size-14">{{$item->status_pesanan}}</span>
+                                                        @endif</td></p>
+        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="event-list">
+                                        <div class="event-timeline-dot">
+                                            <i  @if ($item->status_pesanan == 'request') class="bx bx-right-arrow-circle bx-fade-right" @elseif($item->status_pesanan == 'proses') class="bx bx-right-arrow-circle" @endif></i>
+                                        </div>
+                                        <div class="media">
+                                            <div class="mr-3">
+                                                <i class="bx bx-package h2 text-primary"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <div>
+                                                    <h5>Konfirmasi Pemesanan</h5>
+                                                    <p class="text-muted">Pihak bengkel akan menghubungi untuk konfirmasi pemesanan anda !</p>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="event-list active">
+                                        <div class="event-timeline-dot">
+                                            <i  @if ($item->status_pesanan == 'proses') class="bx bx-right-arrow-circle bx-fade-right" @elseif($item->status_pesanan == 'request') class="bx bx-right-arrow-circle" @endif></i>
+                                        </div>
+                                        <div class="media">
+                                            <div class="mr-3">
+                                                <i class="bx bx-car h2 text-primary"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <div>
+                                                    <h5>Menuju Lokasi</h5>
+                                                    <p class="text-muted">Pihak bengkel akan menuju ke lokasi anda sesuai tanggal yang di tentukan !</p>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="event-list">
+                                        <div class="event-timeline-dot">
+                                            <i class="bx bx-right-arrow-circle"></i>
+                                        </div>
+                                        <div class="media">
+                                            <div class="mr-3">
+                                                <i class="bx bx-badge-check h2 text-primary"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <div>
+                                                    <h5>Selesai</h5>
+                                                    <p class="text-muted"> </p>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            {{-- <div class="row">
                 <div class="col-10">
                     <div class="card">
                         @foreach ($status as $item)
@@ -75,7 +173,7 @@
                                             class="badge badge-pill badge-soft-danger font-size-14">{{$item->status_pesanan}}</span>
                                         @endif</td></label>
                                 </div>
-                            </div>
+                            </div> --}}
                             {{-- <div class="form-group row">
                                 <label for="example-url-input" class="col-md-5 col-form-label">URL</label>
                                 <div class="col-md-7">
@@ -84,7 +182,7 @@
                             </div> --}}
 
                                 
-                                    <div class="py-2 mt-3">
+                                    {{-- <div class="py-2 mt-3">
                                         <h3 class="font-size-15 font-weight-bold">Estimasi Biaya</h3>
                                     </div>
                                     <div class="table-responsive">
@@ -130,10 +228,8 @@
                     </div>
                 </div> <!-- end col -->
             </div>
-        </div>
+        </div> --}}
      </div>
-
-    <!-- end row -->
 
 </div> <!-- container-fluid -->
 </div>
@@ -155,7 +251,6 @@
     })
 </script>
  @endif
-
 </html>
 
 

@@ -15,9 +15,13 @@ use App\Models\masalah_pesanan;
 use App\Models\pemesanan;
 use App\Models\jenis_pesanan;
 use App\Models\merek_pesanan;
-use App\Models\estimasi_biaya;
+use App\Models\estimasi_biayas;
+use App\Models\VerifyBengkel;
 use Redirect;
 use App\Models\riwayatPesanan;
+use DB; 
+use Carbon\Carbon; 
+use Mail;
 
 class BengkelController extends Controller
 {
@@ -25,6 +29,7 @@ class BengkelController extends Controller
     {   
         $id = $request->session()->get('id_bengkel');
         if($id !== null){
+            $dataBengkel = bengkelservice::findOrFail($id);
 
             if(!empty(bengkelservice::where('email',$request->session()->get('email'))->first())){
                 $bengkelservice = bengkelservice::where('email',$request->session()->get('email'))->first();
@@ -73,7 +78,7 @@ class BengkelController extends Controller
                 $month_batal[$batal->month - 1] = $batal->total;
             };
 
-            return view ('bengkel.pages.dashboard', compact('month_batal', 'month_selesai', 'month_total'));
+            return view ('bengkel.pages.dashboard', compact('month_batal', 'month_selesai', 'month_total', 'dataBengkel'));
 
         }else{
             return redirect ('/login');
@@ -126,69 +131,110 @@ class BengkelController extends Controller
             return redirect()->back()->withErrors($validation->errors())->withInput($request->input());
         }
 
-        bengkelservice::create(
-            [
-                'nama_lengkap' => $request->nama_lengkap,
-                'nama_jasa_service' => $request->nama_jasa_service,
-                'alamat_lengkap' => $request->alamat_lengkap,
-                'no_telepon' => $request->no_telepon,
-                'nama_kategori' => $request->nama_kategori,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                // 'logo' => $request->logo,
-                'deskripsi' => $request->deskripsi,
-            ]
-        );
+           $bengkelregister= bengkelservice::create(
+                [
+                    'nama_lengkap' => $request->nama_lengkap,
+                    'nama_jasa_service' => $request->nama_jasa_service,
+                    'alamat_lengkap' => $request->alamat_lengkap,
+                    'no_telepon' => $request->no_telepon,
+                    'nama_kategori' => $request->nama_kategori,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    // 'logo' => $request->logo,
+                    'deskripsi' => $request->deskripsi,
+                ]
+            );
+
+            $verifybengkel = Verifybengkel::create([
+                'bengkel_id' => $bengkelregister->id,
+                'token' => sha1(time())
+            ]);
         
-       return redirect ('/login')->with('success', 'Pendaftaran berhasil. Silahkan login!');
+            Mail::send('bengkel.pages.verifregister', ['token' => $verifybengkel->token , 'email' => $request->email], function($message) use($request){
+                $message->to($request->email);
+                $message->subject('Notifikasi Verifikasi Registrasi');
+            });
+        
+       return redirect ('/login')->with('success', 'Pendaftaran berhasil. Silahkan cek email!');
     }
+
+
+    public function verifyBengkel(Request $request, $token)
+        {
+        
+            $verifyBengkel = DB::table('Verify_bengkels')->where(['token' => $request->token])->first();
+
+            if(!$verifyBengkel == 0)
+                return back()->withInput()->with('error', 'Invalid token!');
+        
+            $bengkelservice = bengkelservice::where('email', $request->email)
+                ->update(['verified' => 1 ]);
+
+            // bengkelservice::where('verified', '0');
+
+                DB::table('Verify_bengkels')->where(['token'=> $request->token])->delete();
+                $status = "Email Sudah DiVerifikasi. Silahkan Login!.";
+
+                return redirect('/login')->with('status', $status);
+        }
 
     public function postlogin(Request $request)
     {
+        
         $rules = [
-            'email'=> 'required|email',
-            'password'=> 'required|min:6',
-        ];
+                'email'=> 'required|email',
+                'password'=> 'required|min:6',
+            ];
+    
+            $message = [
+                'required' => 'Form :attribute tidak boleh kosong!',
+                'min' => ':attribute harus 6 karakter!',
+                'email' => 'password salah',
+            ];
+    
+            $validation = Validator::make($request->all(),$rules, $message);
+    
+            if($validation->fails()){
+                
+                return redirect()->back()->withErrors($validation->errors())->withInput($request->input());
+            }
+    
+    
+            if(!empty(bengkelservice::where('email', $request->email)->first())){
+                $bengkelservice = bengkelservice::where('email', $request->email)->first();
+                if(Hash::check($request->password, $bengkelservice->password)) {
+                    $request->session()->put('token_bengkel', $this->token());
+                    $request->session()->put('namabengkel', $bengkelservice->nama_lengkap);
+                    $request->session()->put('emailbengkel', $bengkelservice->email);
+                    $request->session()->put('id_bengkel', $bengkelservice->id);
+    
+                    bengkelservice::where('email', $request->email)->update(
+                        [
+                            'token' => $request->session()->get('token_bengkel')
+                        ]
+                    );
 
-        $message = [
-            'required' => 'Form :attribute tidak boleh kosong!',
-            'min' => ':attribute harus 6 karakter!',
-            'email' => 'password salah',
-        ];
+                    $dataBengkelService = bengkelservice::where('email', $request->email)->first();
+                    if($dataBengkelService->verified == 0 ){
+                        return redirect('/login')->with('status','Kami mengirimkan kode aktivasi kepada Anda. Periksa email Anda dan klik tautan untuk memverifikasi');
+                    }
 
-        $validation = Validator::make($request->all(),$rules, $message);
-
-        if($validation->fails()){
-            // dd($validation->errors());
-            
-            return redirect()->back()->withErrors($validation->errors())->withInput($request->input());
-        }
-
-        if(!empty(bengkelservice::where('email', $request->email)->first())){
-            $bengkelservice = bengkelservice::where('email', $request->email)->first();
-            if(Hash::check($request->password, $bengkelservice->password)) {
-                $request->session()->put('token_bengkel', $this->token());
-                $request->session()->put('namabengkel', $bengkelservice->nama_lengkap);
-                $request->session()->put('emailbengkel', $bengkelservice->email);
-                $request->session()->put('id_bengkel', $bengkelservice->id);
-
-                bengkelservice::where('email', $request->email)->update(
-                    [
-                        'token' => $request->session()->get('token_bengkel')
-                    ]
-                );
-
-                return redirect ('/dashboard');
+                    if($dataBengkelService->status == 0 ){
+                        return redirect('/')->with('warning','Akun anda telah dinonaktifkan');
+                    }
+    
+                    return redirect ('/dashboard');
+                    
+                }else{
+    
+                    return redirect ('/login')->with('passwordsalah', 'Email atau Password salah !')->withInput($request->input());
+                }
                 
             }else{
-
-                return redirect ('/login')->with('passwordsalah', 'Email atau Password salah !')->withInput($request->input());
+    
+                return redirect ('/login')->with('emailsalah', 'Email atau Password salah !!',)->withInput($request->input());
             }
             
-        }else{
-
-            return redirect ('/login')->with('emailsalah', 'Email atau Password salah !')->withInput($request->input());
-        }
         
         return view ('bengkel.auth.login');
     }
@@ -224,8 +270,9 @@ class BengkelController extends Controller
         if($id !== null){
 
             $id = $request->session()->get('id_bengkel');
-            $daftarpemesan = pemesanan::with('masalah_pesanan', 'jenis_pesanan', 'merek_pesanan','estimasi_biaya')->where("id_bengkel_service","LIKE","%{$id}%")->get();
-            // dd($id);
+            $daftarpemesan = pemesanan::with('masalah_pesanan', 'jenis_pesanan', 'merek_pesanan','estimasi_biaya')
+            ->where("id_bengkel_service","LIKE","%{$id}%")->whereNotIn('status_pesanan', ['selesai','batal'])->get();
+            
             return view ('bengkel.pages.daftarpemesanan', compact('daftarpemesan'));
         
         }else{
@@ -299,13 +346,149 @@ class BengkelController extends Controller
     }
 
 
-    public function riwayatpesanan(Request $request)
+    public function daftartransaksi(Request $request)
     {
-        $id = $request->session()->get('id_bengkel');
-        $riwayatpemesan = riwayatpesanan::where("id_bengkel_service","LIKE","%{$id}%")->get();
+        $id1 = $request->session()->get('id_bengkel');
+        if($id1 !== null){
 
-        return view ('bengkel.pages.riwayat', compact('riwayatpemesan'));
+            $id = $request->session()->get('id_bengkel');
+            $riwayatpemesan = pemesanan::where("id_bengkel_service","LIKE","%{$id}%")
+            -> whereNotIn('status_pesanan', ['proses','request'])->get();
+
+            // dd($riwayatpemesan);
+            
+
+            return view ('bengkel.pages.daftartransaksi', compact('riwayatpemesan'));
+
+        }else{
+            return redirect ('/login');
+        }
     }
 
+    public function searchtable(Request $request)
+    {
+        $id = $request->session()->get('id_bengkel');
+        $riwayatpemesan = pemesanan::where("id_bengkel_service","LIKE","%{$id}%")
+        ->whereNotIn('status_pesanan', ['request','proses']);
+
+            $fromDate = $request->input('fromDate');
+            $toDate = $request->input('toDate');
+            // $fromDate ='2023-01-01' ;
+            // $toDate ='2023-01-06' ;
+            // dd($fromDate);
+
+            $riwayatpemesan = pemesanan::with('bengkelservice','estimasi_biaya')->select()
+            ->where("id_bengkel_service","LIKE","%{$id}%")
+            ->where('tanggal_pemesanan', '>=', $fromDate)
+            ->where('tanggal_pemesanan', '<=', $toDate)
+            ->whereNotIn('status_pesanan', ['request','proses'])->get();
+            // dd($riwayatpemesan);
+
+            return view ('bengkel.pages.daftartransaksi', compact('riwayatpemesan'));
+    }
+
+    public function forgotpasswordbengkel(Request $request)
+    {
+        return view ('bengkel.auth.forgotpassword');
+    }
+
+    public function postforgotpwdbengkel(Request $request)
+    {
+        // $request->validate([
+        //     'email' => 'required|email|exists:pelanggan',
+        // ]);
+
+        $rules = [
+            'email' => 'required|email|exists:bengkelservice',
+        ];
+
+        $message = [
+            'required' => 'Harap di isi tidak boleh kosong!',
+            'email' => 'Format harus Email',
+            'exists' => 'Email Tidak Ditemukan',
+        ];
+
+        $validation = Validator::make($request->all(),$rules, $message);
+
+        if($validation->fails()){
+
+            return redirect()->back()->withErrors($validation->errors())->withInput($request->input());
+        }
+
+
+        
+        $str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXWYZ';
+        $length = 64;
+        $token = substr(str_shuffle($str), 0, $length);
+        // dd($token);
+        
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => Carbon::now(),
+        ]);
+
+        Mail::send('bengkel.auth.verif', ['token' => $token, 'email' => $request->email], function($message) use($request){
+            $message->to($request->email);
+            $message->subject('Notifikasi Reset Password!');
+        });
+
+        return back()->with('message', 'Reset password sudah dikirim harap cek email!');
+    }
+
+    public function getPasswordbengkel(Request $request, $token) 
+    { 
+        // return view('pelanggan.pages.reset', ['token' => $token]);
+        return view('bengkel.auth.reset')->with(['token' => $token, 'email' => $request->email]);
+    }
     
+    public function updatePasswordbengkel(Request $request)
+    {
+
+        $rules = [
+            'email' => 'required|email|exists:bengkelservice',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required',
+        ];
+
+        $message = [
+            'required' => 'Harap di isi tidak boleh kosong!',
+            'email' => 'Format harus Email',
+            'exists' => 'Email tidak cocok!',
+            'confirmed' => 'Password tidak sama!'
+        ];
+        
+        $validation = Validator::make($request->all(),$rules, $message);
+
+        if($validation->fails()){
+
+            return redirect()->back()->withErrors($validation->errors())->withInput($request->input());
+        }
+
+        $updatePassword = DB::table('password_resets')->where(['email' => $request->email, 'token' => $request->token])->first();
+
+        if(!$updatePassword)
+            return back()->withInput()->with('error', 'Invalid token!');
+        
+        $pelanggan = bengkelservice::where('email', $request->email)
+            ->update(['password' => Hash::make($request->password)]);
+
+            DB::table('password_resets')->where(['email'=> $request->email])->delete();
+        
+        return redirect('/login')->with('message', 'Password Berhasil Dirubah!');
+
+    }
+
+    public function closeOrder(Request $request) {
+        $id = $request->session()->get('id_bengkel');
+        $bengkel = bengkelservice::findOrFail($id);
+        $status = $bengkel->available == 1 ? 0 : 1;
+        
+        $bengkel->update([
+            "available" => $status
+        ]);
+
+        return redirect()->back();
+    }
+
 }

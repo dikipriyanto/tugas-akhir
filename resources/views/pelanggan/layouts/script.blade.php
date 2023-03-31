@@ -38,5 +38,11 @@
         <!-- sticky sidebar js -->
         <script src="{{asset('assets/js/theia-sticky-sidebar.min.js')}}"></script>
         <script src="https://js.pusher.com/3.1/pusher.min.js"></script>
+        <script src="{{asset('assets/libs/bootstrap-rating/bootstrap-rating.min.js')}}"></script>
+
+        <script src="{{asset('assets/js/pages/rating-init.js')}}"></script>
+        <!-- Sweet Alerts js -->
+        <script src="{{asset('assets/libs/sweetalert2/sweetalert2.min.js')}}"></script>
+        
 
         

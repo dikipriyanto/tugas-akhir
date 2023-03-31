@@ -58,67 +58,82 @@
     }
 
 </style> --}}
+
+<style>
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body{
+  background: #f2f2f2;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.search {
+  width: 120%;
+  position: relative;
+  display: flex;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 3px solid #00B4CC;
+  border-right: none;
+  padding: 20px;
+  height: 20px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+}
+
+.searchTerm:focus{
+  color: #05090c;
+}
+
+.searchButton {
+  width: 40px;
+  height: 45px;
+  border: 1px solid #2974ec;
+  background: #1a93ea;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+  width: 30%;
+  position: absolute;
+  top: 70%;
+  left: 48%;
+  transform: translate(-50%, -50%);
+}
+</style>
+
 <div class="banner banner-3">
     <div class="container">
         <div class="card-body">
             <div class="page-content">
                 {{-- <div class="container"> --}}
                 <div class="banner-content">
-                    <div class="row justify-content-center">
-                        <h1>Pemesanan Tukang Service Elektronik
-                        </h1>
-                        
-                        {{-- <div class="col-lg-9">
-                            <div class="card">
-                                <div class="card-body">
-                                    <label class="row justify-content-center">
-                                        <p><strong>CARI BENGKEL SERVICE ELEKTRONIK</strong></p>
-                                    </label>
-                                    <div class="row">
-                                        <div class="col-xl-3 col-lg-4 col-sm-4" stlye="height: 1000px">
-                                            <div class="card shadow p-4">
-                                                <div class="body">
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <div class="" style="width: 65px">
-                                                            <img src="https://res.cloudinary.com/dponfhau5/image/upload/v1626949672/KategoriService/2021-07-22%2010:27:47-Service%20Kulkas.png" alt="" srcset="" class="object-contain">
-                                                            <img src="https://res.cloudinary.com/dponfhau5/image/upload/v1626949672/KategoriService/2021-07-22%2010:27:47-Service%20Kulkas.png" alt="" srcset="" class="object-contain">
-                                                        </div>
-                                                    </div>
-                                                    <p class="text-center mt-3">BENKEL As</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <form action="{{ route('caribengkel') }}">
-                                        <div class="form-row">
-                                            <div class="col-md-10">
-                                                <div class="inputWithIcon">
-                                                    <input type="text" class="" id="select-bengkel"
-                                                        name="caribengkel" readonly placeholder="Pilih Bengkel Service">
-                                                        <i class="fa fa-chevron-down fa-lg fa-fw" aria-hidden="true"></i>
-                                                </div>
-                                                <ul class="px-3 py-2 shadow" id="list-select-bengkel"
-                                                    style="display: none">
-                                                    @foreach ($kategori_services as $item)
-                                                    <li class="flex my-2 p-2 list-item-bengkel" style="cursor: pointer"
-                                                        data-name="{{ $item->nama_kategori }}">
-                                                        <img src="{{ $item->foto }}" width="66" alt="">
-                                                        <strong><label for="" class="ml-3">{{ $item->nama_kategori }}</label></strong>
-                                                    </li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <button type="submit" class="btn btn-cari mb-10">CARI</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                    {{-- <div class="row justify-content-center"> --}}
+                        {{-- <h1>Pemesanan Tukang Service Elektronik
+                        </h1> --}}
+                        <div class="d-flex justify-content-center px-5">
+                            {{-- <div class="search"> 
+                                <input type="text" class="search-input" placeholder="Cari bengkel service disini!" name=""> <a href="{{route('searchbengkel')}}" class="search-icon"> <i class="fa fa-search"></i> </a>
+                            </div> --}}
+                            <form action="{{route('searchbengkel')}}">
+                            <div class="wrap">
+                                <div class="search">
+                                   <input type="text" name="searchbengkel" value="" class="searchTerm" placeholder="Cari bengkel service disini!">
+                                   <button type="submit" class="searchButton">
+                                     <i class="fa fa-search"></i>
+                                  </button>
                                 </div>
                             </div>
-                        </div> --}}
+                        </form>
+                        </div>
                     </div>
                 </div>
                 {{-- </div>  --}}
@@ -126,6 +141,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- product begin -->
 <div class="product">
@@ -291,6 +307,19 @@
     Swal.fire({
             title: "Password Salah",
             // text: "Your imaginary file is safe :)",
+            type: "error"
+        })
+
+    $('#exampleModal').modal({show:true})
+
+</script>
+@endif
+
+@if(Session::has('banned'))
+<script>
+    Swal.fire({
+            title: "Oops...",
+            text: "AKUN ANDA TELAH DINONAKTIFKAN",
             type: "error"
         })
 

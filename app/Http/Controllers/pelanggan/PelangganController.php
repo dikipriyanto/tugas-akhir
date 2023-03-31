@@ -20,6 +20,8 @@ use App\Models\riwayatPesanan;
 use DB; 
 use Carbon\Carbon; 
 use Mail;
+use App\Models\rating;
+use session;
 
 class PelangganController extends Controller
 {
@@ -88,6 +90,13 @@ class PelangganController extends Controller
     {
         $kategori_services = kategori_service::all();
 
+        $dataPelangganService = pelanggan::where('email', $request->email1)->first();
+            // dd($dataPelangganService);
+                
+        if($dataPelangganService->status == 0 ){
+            return redirect('/')->with('banned','Akun anda telah dinonaktifkan');
+        }
+
         $rules = [
             'email1'=> 'required|email',
             'password1'=> 'required|min:6',
@@ -119,6 +128,8 @@ class PelangganController extends Controller
                         'token' => $request->session()->get('token_pelanggan')
                     ]
                 );
+
+                
 
                 return view ('pelanggan.pages.index', compact('kategori_services'));
 
@@ -164,9 +175,17 @@ class PelangganController extends Controller
     {
         $caribengkel = $request->get('caribengkel');
         $bengkelservice = bengkelservice::all();
+
+        
         if($caribengkel !== null){
-            $bengkelservice = bengkelservice::where("nama_kategori","LIKE","%{$caribengkel}%")->get();
+            $bengkelservice = bengkelservice::withCount(['rating as rate' => function($query){
+                $query->select(DB::raw('AVG(stars_rated)'));
+            }])->where("nama_kategori","LIKE","%{$caribengkel}%")
+            ->orderByDesc("rate")
+            ->get();
         }
+        
+
         return view ('pelanggan.pages.caribengkel', compact('bengkelservice'));
     }
 
@@ -218,12 +237,15 @@ class PelangganController extends Controller
     public function riwayatpemesanan(Request $request)
     {
         $id1 = $request->session()->get('id_pelanggan');
+
         if($id1 !== null){
-
+            
             $id = $request->session()->get('id_pelanggan');
-            $riwayatpemesanan = pemesanan::where("id_pelanggan","LIKE","%{$id}%")-> whereNotIn('status_pesanan', ['proses','request']) ->get();
 
-            return view ('pelanggan.pages.riwayat', compact('riwayatpemesanan'));
+
+            $riwayatpemesanan = pemesanan::with('Rating', "Rating.pelanggan")->where("id_pelanggan","LIKE","%{$id}%")-> whereNotIn('status_pesanan', ['proses','request']) ->get();
+            // dd($riwayatpemesanan);
+            return view ('pelanggan.pages.riwayat', compact('riwayatpemesanan'))->with('i', ($request->input('page', 1) - 1));
         }else{
             return redirect ('/')->with('gagalmasuk', ' Silahkan login') ;
         }
@@ -326,6 +348,52 @@ class PelangganController extends Controller
         
         return redirect('/')->with('message', 'Your password has been changed!');
 
+    }
+
+    public function addRating(Request $request)
+    {   
+        $stars_rated = $request->input('rated');
+        // $id_bengkel = $request->input('id_bengkel');
+        $id1 = $request->session()->get('id_pelanggan');
+
+        Rating::create([
+            'id_pemesanan' => $request->id_pemesanan,
+            'id_bengkel' => $request->id_bengkel,
+            'id_pelanggan' => $id1,
+            'stars_rated' => $stars_rated,
+            'review' => $request->review
+        ]);
+
+        return redirect('/riwayatpemesanan')->with('makasih', '#');
+        
+    }
+
+    public function searchbengkel(Request $request)
+    {
+        $searchbengkel = $request->get('searchbengkel');
+        // dd($searchbengkel);
+        if($searchbengkel != ""){
+
+            $bengkelservice = bengkelservice::withCount(['rating as rate' => function($query){
+                $query->select(DB::raw('AVG(stars_rated)'));
+            }])->where("nama_kategori","LIKE","%{$searchbengkel}%")
+            ->orderByDesc("rate")->where('nama_kategori','LIKE',"%$searchbengkel%")
+            ->orWhere('nama_jasa_service','LIKE',"%$searchbengkel%")
+            ->orWhere('alamat_lengkap','LIKE',"%$searchbengkel%")->get();
+
+            // dd($bengkelservice);
+
+        }else{
+            $bengkelservice = bengkelservice::all();
+
+            $bengkelservice = bengkelservice::withCount(['rating as rate' => function($query){
+                $query->select(DB::raw('AVG(stars_rated)'));
+            }])->where("nama_kategori","LIKE","%{$searchbengkel}%")
+            ->orderByDesc("rate")
+            ->get();
+        }
+
+        return view('pelanggan.pages.searchbengkel', compact('bengkelservice','searchbengkel'));
     }
 
 }

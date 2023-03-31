@@ -19,7 +19,7 @@ use App\Events\notif;
 
 
 /* Admin */
-Route::get('/dashboard_admin', 'admin\AdminController@index');
+Route::get('/dashboard_admin', 'admin\AdminController@index')->name('dashboardindex');
 Route::get('/admin/register', 'admin\AdminController@register')->name('register');
 Route::post('/admin/postregister', 'admin\AdminController@postregister')->name('registeradmin');
 Route::get('/admin/login', 'admin\AdminController@loginadmin')->name('loginadmin');
@@ -27,13 +27,47 @@ Route::post('/admin/postlogin', 'admin\AdminController@postlogin')->name('logina
 Route::get('/admin/logout', 'admin\AdminController@logout')->name('logoutadmin');
 /* Admin / kelola bengkel service */
 Route::resource('/kategoriservice', admin\KategoriServiceController::class);
+
+/* Admin / Edit Profile*/
+Route::get('/admin/editadmin', 'admin\AdminController@editadmin')->name('editadmin');
+Route::post('/admin/editadmin', 'admin\AdminController@editadminupdate')->name('editadminupdate');
+
+
+/* Admin / masalahservice service */
+Route::get('/masalahservice', 'admin\KategoriServiceController@masalahindex')->name('masalah');
+Route::get('/masalahcreate', 'admin\KategoriServiceController@masalahcreate')->name('masalahcreate');
+Route::get('/masalahstore', 'admin\KategoriServiceController@masalahstore')->name('masalahstore');
+Route::get('/masalahedit/{id}', 'admin\KategoriServiceController@masalahedit')->name('masalahedit');
+Route::post('/masalah/update/{id}', 'admin\KategoriServiceController@masalahupdate')->name('masalahupdate');
+Route::DELETE('/masalah/hapus/{id}', 'admin\KategoriServiceController@masalahhapus')->name('masalahhapus');
+/* Admin / jenisservice service */
+Route::get('/jenisservice', 'admin\KategoriServiceController@jenisindex')->name('jenis');
+Route::get('/jeniscreate', 'admin\KategoriServiceController@jeniscreate')->name('jeniscreate');
+Route::get('/jenisstore', 'admin\KategoriServiceController@jenisstore')->name('jenisstore');
+Route::get('/jenisedit/{id}', 'admin\KategoriServiceController@jenisedit')->name('jenisedit');
+Route::post('/jenis/update/{id}', 'admin\KategoriServiceController@jenisupdate')->name('jenisupdate');
+Route::DELETE('/jenis/hapus/{id}', 'admin\KategoriServiceController@jenishapus')->name('jenishapus');
+/* Admin / Merek service */
+Route::get('/merekservice', 'admin\KategoriServiceController@merekindex')->name('merek');
+Route::get('/merekcreate', 'admin\KategoriServiceController@merekcreate')->name('merekcreate');
+Route::get('/merekstore', 'admin\KategoriServiceController@merekstore')->name('merekstore');
+Route::get('/merekedit/{id}', 'admin\KategoriServiceController@merekedit')->name('merekedit');
+Route::post('/merek/update/{id}', 'admin\KategoriServiceController@merekupdate')->name('merekupdate');
+Route::DELETE('/merek/hapus/{id}', 'admin\KategoriServiceController@merekhapus')->name('merekhapus');
+
 Route::get('/admin/penggunabengkel', 'admin\PenggunabengkelController@index')->name('penggunabengkel');
 Route::delete('/admin/penggunabengkel/hapus/{id}', 'admin\PenggunabengkelController@destroy')->name('penggunabengkelhapus');
+Route::post('/admin/penggunabengkel/updatestatus', 'admin\PenggunabengkelController@updatestatus')->name('updatestatus');
 /* Admin / kelola pelanggan */
 Route::get('/admin/pelangganservice', 'admin\PelangganserviceController@index')->name('pelangganservice');
 Route::delete('/admin/pelangganservice/hapus/{id}', 'admin\pelangganserviceController@destroy')->name('pelangganservicehapus');
+Route::post('/admin/pelangganservice/updatestatus', 'admin\PelangganserviceController@updatestatus')->name('updatestatuspelanggan');
 /* Admin / kelola data transaksi */
 Route::get('/admin/datatransaksi', 'admin\AdminController@datatransaksi')->name('datatransaksi');
+route::get('/searchtanggal', 'admin\AdminController@searchtanggal')->name('searchtanggal');
+
+
+
 
 /* pelanggan */
 Route::get('/', 'pelanggan\PelangganController@index')->name('pelanggan.index');
@@ -52,7 +86,8 @@ route::get('/lupapassword', 'pelanggan\PelangganController@forgotpassword')->nam
 route::post('/lupapassword', 'pelanggan\PelangganController@postforgotpwd')->name('postpwd');
 Route::get('/reset-password/{token}/{email}', 'pelanggan\PelangganController@getPassword')->name('getPassword');
 Route::post('/reset-password', 'pelanggan\PelangganController@updatePassword')->name('updatePassword');
-
+Route::post('/addrating', 'pelanggan\PelangganController@addRating')->name('addRating');
+route::get('/searchbengkel', 'pelanggan\PelangganController@searchbengkel')->name('searchbengkel');
 
 
 /* Bengkel Service */
@@ -67,6 +102,11 @@ Route::get('/editprofil', 'bengkel\profilbengkelController@editprofil')->name('e
 Route::post('/updateprofil/{id}', 'bengkel\profilbengkelController@updateprofil')->name('updatebengkelprofil');
 Route::get('/gantipassword', 'bengkel\profilbengkelController@gantipassword')->name('gantipassword');
 Route::post('/updatepassword', 'bengkel\profilbengkelController@updatepassword')->name('updatepassword');
+route::get('/lupapasswordbengkel', 'bengkel\BengkelController@forgotpasswordbengkel')->name('forgotpasswordbengkel');
+route::post('/lupapasswordbengkel', 'bengkel\BengkelController@postforgotpwdbengkel')->name('postpwdbengkel');
+Route::get('/reset-password-bengkel/{token}/{email}', 'bengkel\BengkelController@getPasswordbengkel')->name('getPasswordbengkel');
+Route::post('/reset-password-bengkel', 'Bengkel\BengkelController@updatePasswordbengkel')->name('updatePasswordBengkel');
+Route::get('/verif-registrasi/{token}/{email}', 'bengkel\BengkelController@verifyBengkel')->name('getverifybengkel');
 
 Route::get('/daftarpemesanan', 'bengkel\BengkelController@daftarPemesanan')->name('daftarpemesanan');
 Route::get('/editpesanan/{id}', 'bengkel\BengkelController@editPesanan')->name('editpesanan');
@@ -76,7 +116,13 @@ Route::get('/editbiaya/{id}', 'bengkel\BengkelController@editBiaya')->name('edit
 Route::post('/updateBiaya', 'bengkel\BengkelController@updateBiaya')->name('updatebiaya');
 Route::delete('/hapusBiaya/{id}', 'bengkel\BengkelController@hapusBiaya')->name('hapusbiaya');
 Route::delete('/hapuspesanan/{id}', 'bengkel\BengkelController@hapusPesanan')->name('hapuspesanan');
-Route::get('/riwayatpesanan', 'bengkel\BengkelController@riwayatpesanan')->name('riwayatpesanan');
+Route::get('/daftartransaksi', 'bengkel\BengkelController@daftartransaksi')->name('daftartransaksi');
+Route::post('/daftartransaksi', 'bengkel\BengkelController@daftartransaksi')->name('daftartransaksi');
+Route::get('/searchtable', 'bengkel\BengkelController@searchtable')->name('searchtable');
+
+Route::post("/close-order", 'bengkel\BengkelController@closeOrder')->name('closeOrder');
+
+
 // Route::get('/daftartransaksi', 'bengkel\BengkelController@daftartransaksi')->name('daftartransaksi');
 
 

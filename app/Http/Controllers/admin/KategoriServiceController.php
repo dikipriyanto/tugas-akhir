@@ -5,6 +5,9 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\kategori_service; 
+use App\Models\masalah; 
+use App\Models\jenis; 
+use App\Models\merek; 
 use Illuminate\Pagination\Paginator;
 use Storage;
 use Carbon\Carbon;
@@ -129,6 +132,189 @@ class KategoriServiceController extends Controller
             return redirect('/kategoriservice?page='.$request->page)->with('berhasil', 'Data berhasil dihapus');
         }else{
             return redirect('/kategoriservice?page='.$kategori_services->lastPage())->with('berhasil', 'Data berhasil dihapus');
+        }
+    }
+
+    public function masalahindex(Request $request)
+    {
+        $pagination = 5;
+        $masalah = masalah::paginate($pagination);
+        return view('admin.pages.masalahservice.index', compact('masalah'))
+        ->with('i', ($request->input('page', 1) - 1) * $pagination);
+    }
+
+    public function masalahcreate()
+    {   
+        $kategori_services = kategori_service::all();
+        return view('admin.pages.masalahservice.create', compact('kategori_services'));
+    }
+
+    public function masalahstore(Request $request)
+    {
+        $masalah = masalah::create([
+            'nama_masalah' => $request->nama_masalah,
+            'kategori_id' => $request->kategori_id,
+        ]);
+        // dd($masalah);
+        $pagination = 10;
+        $masalah = kategori_service::paginate($pagination);
+
+        return redirect('/masalahservice?page='.$masalah->lastPage())->with('success', 'Data berhasil ditambahkan!');
+    }
+
+    public function masalahedit(Request $masalah)
+    {
+        $masalah = masalah::find($masalah->id);
+        // dd($masalah);
+        $kategori_services = kategori_service::all();
+        return view('admin.pages.masalahservice.edit', compact ('masalah','kategori_services'));
+    }
+
+    public function masalahupdate(Request $request, $id)
+    {
+        $masalah = masalah::find($id);
+        // dd($masalah);
+        $masalah->update([
+            'nama_masalah' => $request->nama_masalah,
+            'kategori_id' => $request->kategori_id,
+        ]);
+        
+
+        return redirect()->route('masalah')->with('success', 'Data telah berhasil diubah!!');
+    }
+
+    public function masalahhapus(Request $request, $masalahs)
+    {
+        $masalah = masalah::findOrFail($masalahs);
+        $masalah->delete();
+        $pagination = 5;
+        $masalah = masalah::paginate($pagination);
+        if($masalah->lastPage() === $request->page){
+            return redirect('/masalahservice?page='.$request->page)->with('berhasil', 'Data berhasil dihapus');
+        }else{
+            return redirect('/masalahservice?page='.$masalah->lastPage())->with('berhasil', 'Data berhasil dihapus');
+        }
+    }
+
+    public function jenisindex(Request $request)
+    {
+        $pagination = 5;
+        $jenis = jenis::paginate($pagination);
+        return view('admin.pages.jenisservice.index', compact('jenis'))
+        ->with('i', ($request->input('page', 1) - 1) * $pagination);
+    }
+
+    public function jeniscreate()
+    {   
+        $kategori_services = kategori_service::all();
+        return view('admin.pages.jenisservice.create', compact('kategori_services'));
+    }
+
+    public function jenisstore(Request $request)
+    {
+        $jenis = jenis::create([
+            'nama_jenis' => $request->nama_jenis,
+            'kategori_id' => $request->kategori_id,
+        ]);
+        // dd($masalah);
+        $pagination = 5;
+        $jenis = jenis::paginate($pagination);
+
+        return redirect('/jenisservice?page='.$jenis->lastPage())->with('success', 'Data berhasil ditambahkan!');
+    }
+
+    public function jenisedit(Request $jenis)
+    {
+        $jenis = jenis::find($jenis->id);
+        
+        $kategori_services = kategori_service::all();
+        return view('admin.pages.jenisservice.edit', compact ('jenis','kategori_services'));
+    }
+
+    public function jenisupdate(Request $request, $id)
+    {
+        $jenis = jenis::find($id);
+        // dd($masalah);
+        $jenis->update([
+            'nama_jenis' => $request->nama_jenis,
+            'kategori_id' => $request->kategori_id,
+        ]);
+        $pagination = 5;
+        $jenis = jenis::paginate($pagination);
+        return redirect('/jenisservice?page='.$jenis->lastPage())->with('success', 'Data telah berhasil diubah!!');
+    }
+
+    public function jenishapus(Request $request, $jenish)
+    {
+        $jenis = jenis::findOrFail($jenish);
+        $jenis->delete();
+        $pagination = 5;
+        $jenis = jenis::paginate($pagination);
+        if($jenis->lastPage() === $request->page){
+            return redirect('/jenisservice?page='.$request->page)->with('berhasil', 'Data berhasil dihapus');
+        }else{
+            return redirect('/jenisservice?page='.$jenis->lastPage())->with('berhasil', 'Data berhasil dihapus');
+        }
+    }
+
+    public function merekindex(Request $request)
+    {
+        $pagination = 5;
+        $merek = merek::paginate($pagination);
+        return view('admin.pages.merekservice.index', compact('merek'))
+        ->with('i', ($request->input('page', 1) - 1) * $pagination);
+    }
+
+    public function merekcreate()
+    {   
+        $kategori_services = kategori_service::all();
+        return view('admin.pages.merekservice.create', compact('kategori_services'));
+    }
+
+    public function merekstore(Request $request)
+    {
+        $merek = merek::create([
+            'nama_merek' => $request->nama_merek,
+            'kategori_id' => $request->kategori_id,
+        ]);
+        // dd($masalah);
+        $pagination = 5;
+        $merek= merek::paginate($pagination);
+
+        return redirect('/merekservice?page='.$merek->lastPage())->with('success', 'Data berhasil ditambahkan!');
+    }
+
+    public function merekedit(Request $mereks)
+    {
+        $merek = merek::find($mereks->id);
+        
+        $kategori_services = kategori_service::all();
+        return view('admin.pages.merekservice.edit', compact ('merek','kategori_services'));
+    }
+
+    public function merekupdate(Request $request, $id)
+    {
+        $merek = merek::find($id);
+        // dd($masalah);
+        $merek->update([
+            'nama_merek' => $request->nama_merek,
+            'kategori_id' => $request->kategori_id,
+        ]);
+        $pagination = 5;
+        $merek = merek::paginate($pagination);
+        return redirect('/merekservice?page='.$merek->lastPage())->with('success', 'Data telah berhasil diubah!!');
+    }
+
+    public function merekhapus(Request $request, $mereks)
+    {
+        $merek = merek::findOrFail($mereks);
+        $merek->delete();
+        $pagination = 5;
+        $merek = merek::paginate($pagination);
+        if($merek->lastPage() === $request->page){
+            return redirect('/merekservice?page='.$request->page)->with('berhasil', 'Data berhasil dihapus');
+        }else{
+            return redirect('/merekservice?page='.$merek->lastPage())->with('berhasil', 'Data berhasil dihapus');
         }
     }
 }

@@ -92,7 +92,7 @@
                                                 <div class="form-group row">
                                                     <label for="example-text-input" class="col-md-2 col-form-label">Nama</label>
                                                     <div class="col-md-10">
-                                                        <input name="nama_pemesan" class="form-control" type="text" value="{{ old('nama_pemesan') }}"  id="example-text-input">
+                                                        <input name="nama_pemesan" class="form-control" type="text" value="{{ old('nama_pemesan')}}"  id="example-text-input">
                                                         @error('nama_pemesan')
                                                             <span class="text-danger">{{$message}}</span>
                                                         @enderror
@@ -140,7 +140,7 @@
                                                 <div class="form-group row">
                                                     <label for="example-date-input" class="col-md-2 col-form-label">Alamat Lengkap</label>
                                                     <div class="col-md-10">
-                                                        <textarea name="alamat" id="textarea" class="form-control" maxlength="225" rows="3" placeholder="Contoh Jl.Ahmad Yani gang 4 RT05/RW07">{{old('alamat')}}</textarea>
+                                                        <textarea name="alamat" id="textarea" class="form-control" maxlength="225" rows="3" placeholder="Contoh Jl.Ahmad Yani gang 4 RT05/RW07">{{old('alamat', $id_pelanggan->alamat)}}</textarea>
                                                         @error('alamat')
                                                             <span class="text-danger">{{$message}}</span>
                                                         @enderror

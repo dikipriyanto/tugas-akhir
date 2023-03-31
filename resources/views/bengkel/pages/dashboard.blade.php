@@ -2,6 +2,10 @@
 @section('content')
 
 <div class="panel">
+    <form action="{{route('closeOrder')}}" method="POST">
+        @csrf
+        <button type="submit">{{$dataBengkel->available == 1 ? "TUTUP" : "BUKA"}}</button>
+    </form>
     <div id="chartTransaksi"></div>
 </div>
 

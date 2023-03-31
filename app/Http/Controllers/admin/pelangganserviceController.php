@@ -21,4 +21,14 @@ class pelangganserviceController extends Controller
         $pelanggan->delete();
         return redirect ('admin/pelangganservice/')->with('success', 'Data berhasil dihapus!');;
     }
+
+    public function updatestatus(Request $request){
+        $pelanggan = pelanggan::where('id',$request->id);
+
+        $pelanggan->update([
+            'status' => $request->status,
+        ]);
+        // dd($bengkelservice);
+        return redirect ('admin/pelangganservice/');
+    }
 }
